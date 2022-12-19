@@ -1,0 +1,21 @@
+{
+    "name": "wetube",
+    "description": "1. git init",
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kamja44/wetubeChallenge.git"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kamja44/wetubeChallenge/issues"
+    },
+    "homepage": "https://github.com/kamja44/wetubeChallenge#readme",
+    "dependencies": {
+        "express": "^4.18.2"
+    }
+}
