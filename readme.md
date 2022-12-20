@@ -115,3 +115,18 @@ express 생성법
   // express()를 사용하면 express application을 생성한다.
   서버는 항상 request(요청)를 listening하고있다.
   app.listen(port,callback function[서버가 시작될 때 작동하는 callback function]) // app <- express server는 항상 request를 listening 하고 있다.
+
+app.get("/", callback)
+// 누군가 /로 get request를 보낸다면 callback을 실행한다.
+
+3.2 ~ 3.3
+server로 request를 보내면 response를 해줘야한다.
+즉, request를 받았으면 response를 return 해야한다.
+
+app.get("/", (req, res) => console.log("hi"))
+// Home으로 get request가 오면, express는 request, response Object를 넣어준다.
+
+response방법
+
+1. return res.end() <- response 연결을 종료한다.
+2. return res.send("message") <- response 창에 message를 출력한 후 연결을 종료한다.
