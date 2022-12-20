@@ -103,3 +103,15 @@ nodemon 사용법
   "dev" : "nodemon --exec babel-node index.js"
   }
 - 파일이 수정되면 nodemon이 자동으로 index.js 파일을 재시작한다.
+
+src 폴더
+
+- 코드와 로직을 가지고 있는 파일을 넣어둔다.
+
+express 생성법
+
+- import express from "express";
+- const app = express(); // app은 변수 이름으로 무엇이 오든 상관없다.
+  // express()를 사용하면 express application을 생성한다.
+  서버는 항상 request(요청)를 listening하고있다.
+  app.listen(port,callback function[서버가 시작될 때 작동하는 callback function]) // app <- express server는 항상 request를 listening 하고 있다.

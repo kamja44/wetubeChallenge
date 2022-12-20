@@ -1,26 +1,27 @@
 {
-    "name": "wetube",
-    "description": "1. git init",
-    "version": "1.0.0",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kamja44/wetubeChallenge.git"
-    },
-    "scripts": {
-        "dev": "babel-node index.js"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/kamja44/wetubeChallenge/issues"
-    },
-    "homepage": "https://github.com/kamja44/wetubeChallenge#readme",
-    "dependencies": {
-        "express": "^4.18.2"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.20.5",
-        "@babel/node": "^7.20.5",
-        "nodemon": "^2.0.20"
-    }
+  "name": "wetube",
+  "description": "1. git init",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamja44/wetubeChallenge.git"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kamja44/wetubeChallenge/issues"
+  },
+  "homepage": "https://github.com/kamja44/wetubeChallenge#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "nodemon": "^2.0.7"
+  }
 }
