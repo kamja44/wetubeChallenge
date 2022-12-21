@@ -130,3 +130,19 @@ response방법
 
 1. return res.end() <- response 연결을 종료한다.
 2. return res.send("message") <- response 창에 message를 출력한 후 연결을 종료한다.
+
+3.5
+Middleware(Controller)에는 3가지 argument가 있다.
+(request, response, next)
+
+- next는 동작이 끝난 후 다음 함수를 실행한다.
+  const gossipMiddleware = (req, res, next) => {
+  console.log("I'm in the middle!");
+  next();
+  };
+  const handleHome = (req, res, next) => {
+  return res.end();
+  }
+  app.get("/", gossipMiddleware, handleHome);
+  즉, 모든 controller는 middleware가 될 수 있다.
+  즉, controller가 next함수를 호출한다 = middleware || controller에서 함수를 return해버리면 controller
