@@ -146,3 +146,12 @@ Middleware(Controller)에는 3가지 argument가 있다.
   app.get("/", gossipMiddleware, handleHome);
   즉, 모든 controller는 middleware가 될 수 있다.
   즉, controller가 next함수를 호출한다 = middleware || controller에서 함수를 return해버리면 controller
+
+  3.6
+  app.use
+
+- global Middleware
+- 어느 URL에도 작동하는 middleware
+
+항상 global Middleware가 먼저오고 그 다음 normal middleware가 와야한다.
+즉, app.use가 먼저, app.get이 나중에 온다.
