@@ -155,3 +155,22 @@ Middleware(Controller)에는 3가지 argument가 있다.
 
 항상 global Middleware가 먼저오고 그 다음 normal middleware가 와야한다.
 즉, app.use가 먼저, app.get이 나중에 온다.
+
+3.10
+
+- 관습적으로, 응답을 해주는 마지막 controller에는 next argument를 사용하지 않는다.
+
+  3.11
+  morgan
+
+- node.js용 request logger middleware이다.
+
+morgan사용법
+
+1. 다운로드
+
+- npm i morgan
+
+2. morgan 함수 호출(app.use()사용하여 morgan 호출)
+   import morgan from"morgan";
+   app.use(morgan())
