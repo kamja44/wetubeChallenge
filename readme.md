@@ -164,8 +164,8 @@ Middleware(Controller)에는 3가지 argument가 있다.
   morgan
 
 - node.js용 request logger middleware이다.
-
-morgan사용법
+- morgan은 좀 더 정교한 middleware이다.
+  morgan사용법
 
 1. 다운로드
 
@@ -174,3 +174,6 @@ morgan사용법
 2. morgan 함수 호출(app.use()사용하여 morgan 호출)
    import morgan from"morgan";
    app.use(morgan())
+
+- morgan 안에는 5가지 옵션이 있다.(combined, common, dev, short, tiny)
+- morgan은 middleware를 return해준다.
