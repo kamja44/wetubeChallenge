@@ -177,3 +177,16 @@ Middleware(Controller)에는 3가지 argument가 있다.
 
 - morgan 안에는 5가지 옵션이 있다.(combined, common, dev, short, tiny)
 - morgan은 middleware를 return해준다.
+
+  4.2
+  Router.get
+
+- const globalRouter = express.Router();
+- const handleHome = (req, res) => res.send("Home");
+- globalRouter.get("/", handleHome);
+- app.use("/", globalRouter);
+
+1. globalRouter라는 이름의 router생성
+2. /로 접근할 때 globalRouter에 있는 컨트롤러를 찾는다.(globalRouter는 /라는 url을 갖고 있다.)
+3. glboalRouter가 /로 접근할 떄 handleHome 미들웨어를 실행한다.
+4. handleHome middleware로 인하여 Home가 출력된다.
