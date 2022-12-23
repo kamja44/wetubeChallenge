@@ -217,3 +217,36 @@ globalRouter의 controller를 분리시키지 않는 이유
 
 - globalRouter는 단순히 URL을 정리하는 기능만 수행한다
 - 즉, globalRouter는 controller를 사용하지 않는다.
+
+  4.7
+  URL parameter
+
+- videoRouter.get("/:id", see);
+- :id처럼 :가 붙으면 파라미터이다.
+- :가 없으면 text로 인식한다.
+- 파라미터를 사용하면 url안에 변수를 포함시킬 수 있다.
+- 파라미터를 지정하면 request의 params에서 지정한 파라미터를 확인할 수 있다.
+- 즉, localhost:4000/videos/1234 URL로 이동 시 request.params에서 {id:"1234"}를 얻을 수 있다.
+
+- videoRouter.js 파일에서 upload 밑에 :id를 둔 이유
+- :id 라우터 밑에 upload 라우터가 있다고 가정하면
+- /videos/upload URL로 이동할 시 upload를 변수로 인식한다.
+- 즉, upload 라우터가 아닌 :id 라우터가 작동한다.
+- 그렇기에 parameter를 사용하는 :id 라우터는 uplaod 라우터보다 밑에 둔다.
+
+  4.8
+  Regular Expression[정규식]
+
+- 문자열로부터 특정 정보를 추출해내는 방법이다.
+
+정규식 테스트 사이트
+
+- https://www.regexpal.com
+  Express Routing(정규식 표현) 사이트
+- https://expressjs.com/en/guide/routing.html (영문)
+- https://expressjs.com/ko/guide/routing.html (한글)
+  videoRouter.get("/:id(\\d+)", see);
+- videoRouter를 사용할 때 id 파라미터는 숫자만 허용한다.
+- 즉, /upload 라우터와 /:id(\\d+)라우터의 순서를 신경쓸 필요가 없다.
+- /:id(\\d+)로 사용한 이유는 파라미터에 id란 이름을 붙이기 위해서이다.
+- 즉, /(\\d+)로 작동 한다.
