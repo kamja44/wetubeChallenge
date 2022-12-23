@@ -190,3 +190,30 @@ Middleware(Controller)에는 3가지 argument가 있다.
 2. /로 접근할 때 globalRouter에 있는 컨트롤러를 찾는다.(globalRouter는 /라는 url을 갖고 있다.)
 3. glboalRouter가 /로 접근할 떄 handleHome 미들웨어를 실행한다.
 4. handleHome middleware로 인하여 Home가 출력된다.
+
+4.3
+export default 변수명(상수명)
+
+- 변수 or 상루를 export 하여 다른 파일에서 import하여 사용할 수 있도록 설정한다.
+- 즉, export default globalRouter
+- globalRouter를 export 하고 다른 파일에서 import globalRouter from "globalRouter가 존재하는 파일 위치"를 작성하면 import한 파일에서 globalRouter를 사용할 수 있다.
+- export default는 단 하나의 변수 or 상수만 export할 수 있다.
+
+export const(let) 변수명
+
+- export default는 하나의 파일에서 하나의 변수 or 상수만 export할 수 있다.
+- 즉, 여러개의 변수 or 상수를 export하기 위해서는 export하고자 하는 const(let) 앞에 export를 붙인다.
+- import 할 때는 object를 열어서 import한다.
+
+- userController.js 파일
+- export const join = (req, res) => res.send("Join");
+- globalRouter.js 파일에서 userController.js 파일의 join을 import 할 때
+- import {join} from "join 상수가 위치하는 경로";
+
+- export default로 export한 변수 or 상수를 import 할 때는 원하는 이름으로 import 할 수 있다.
+- export const(let)으로 export한 변수 or 상수는 export할 때의 변수명과 같은 이름으로 사용해야 한다.
+
+globalRouter의 controller를 분리시키지 않는 이유
+
+- globalRouter는 단순히 URL을 정리하는 기능만 수행한다
+- 즉, globalRouter는 controller를 사용하지 않는다.
