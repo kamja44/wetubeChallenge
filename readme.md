@@ -293,3 +293,27 @@ partials 폴더
 - partials폴더의 파일을 PUG파일에 추가하는 방법(include PUG파일 경로)
 - ex) watch.pug파일에 footer.pug 파일을 추가할 때(경로는 watch.pug파일을 기준으로 하는 상대경로이다.)
 - include partials/footer.pug
+
+  5.3
+  HTML Extending(PUG Extending)
+
+- HTML 확장
+
+HTML Extending 방법
+
+1. 기본이 되는 HTML 파일 작성
+2. 확장받을 파일에서 extends한다.
+
+- ex)
+- 기본파일 = base.pug, 확장받을 파일 = watch.pug
+- watch.pug에서 extends base.pug 작성
+
+HTML 확장 시 content 추가 방법
+
+- base.pug 파일에서 변경될 부분을 block content(변수명) 으로 작성한다.
+- 즉, base.pug파일에 content를 위한 공간이 생성된다.
+- 그 후, 확장받을 파일에 가서 block content를 작성하고
+- 들여쓰기 후 내용을 작성한다.
+  ex) base.pug파일을 확장하는 home.pug파일
+- block content
+- 들여쓰기 h1 Home!
