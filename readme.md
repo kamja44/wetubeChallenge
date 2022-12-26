@@ -257,6 +257,11 @@ globalRouter의 controller를 분리시키지 않는 이유
 - HTML Template Engine
 - 모든건 소문자로 작성하고, 속성이 있다면 괄호안에 작성한다.
 - 자식은 부모속성보다 안쪽에 있어야 한다.(들여쓰기)
+
+PUG Document
+
+- https://pugjs.org/language/inheritance.html
+
   PUG 사용법
 
 1. 다운로드
@@ -317,3 +322,22 @@ HTML 확장 시 content 추가 방법
   ex) base.pug파일을 확장하는 home.pug파일
 - block content
 - 들여쓰기 h1 Home!
+
+- 확장할 때 block의 이름을 content로 지정했다면, 확장받는 HTML 파일의 block 이름도 content로 서로 같아야 한다.
+
+  5.4
+  Controller에서 템플릿으로 변수를 보내는 방법
+
+- res.render("home", {변수명 : "변수 값"})
+- 이렇게 home파일에 변수값을 전달할 수 있다.
+- home 파일에서는 전달받은 변수값을 #{}(자바스크립트 코드 이용하는 방식)를 이용하여 전달받은 변수 값을 사용할 수 있다.
+- home파일은 base.pug파일을 확장하기에 base.pug파일에서 #{}를 이용하여 변수명을 사용한다.
+- 변수를 여러개 전달할 수있다.
+- {tomato: "tomato", kimch : "kimch"}
+
+  5.6
+  MVP styles
+
+- 간단하게 CSS를 적용시킬 수 있다.
+- base.pug 파일에 적용시켜야 한다.
+- link(rel="stylesheet" href="https://unpkg.com/mvp.css")
