@@ -250,3 +250,46 @@ globalRouter의 controller를 분리시키지 않는 이유
 - 즉, /upload 라우터와 /:id(\\d+)라우터의 순서를 신경쓸 필요가 없다.
 - /:id(\\d+)로 사용한 이유는 파라미터에 id란 이름을 붙이기 위해서이다.
 - 즉, /(\\d+)로 작동 한다.
+
+  5.0 ~ 5.1
+  PUG
+
+- HTML Template Engine
+- 모든건 소문자로 작성하고, 속성이 있다면 괄호안에 작성한다.
+- 자식은 부모속성보다 안쪽에 있어야 한다.(들여쓰기)
+  PUG 사용법
+
+1. 다운로드
+
+- npm i pug
+
+2. express에게 HTML Template Engine을 PUG로 사용하겠다고 명시(server.js 파일에서 뷰 엔진 설정(view engine))
+
+- app.set("view engien", "pug");
+
+3. express는 기본적으로 /views 폴더에서 뷰를 찾는다. 즉, /views 폴더 아래의 PUG파일을 생성한다.
+
+4. express는 기본적으로 현재 작업 디렉토리에서 /views라는 디렉토리를 찾는다.
+
+- package.json이 서버를 실행시킬 때(어디서 노드를 호출하는지 즉, node.js를 실행시키는 위치) package.json의 위치가 현재디렉토리이다.
+- 즉, package.json은 src 밖에 존재하므로 views 디렉토리의 위치는 cwd(현재 디렉토리)/views이다.(실제 파일은 cwd/src/views)이다.
+- 현재 서버는 src폴더 밖에서 실행하기에 express가 디렉토리를 찾기위한 경로를 바꿔줘야한다.
+- app.set("views", process.cwd() + "/src/views");
+
+  Controller에서 PUG 접근 방법
+
+- res.end() or res.send() 대신 res.render()을 사용한다.
+- res.render("view 이름") -> view 이름은 render할 PUG파일의 이름을 의미한다.
+
+  5.2
+  PUG에서 변수 사용하는 방법(PUG에서 자바스크립트 사용하는 방법)
+
+- #{}
+- EX) 현재 년도 출력 #{new Date().getFullYear()}}
+
+partials 폴더
+
+- 각 PUG파일마다 공통으로 사용되는(header, footer 등) 코드를 넣어서 관리한다.
+- partials폴더의 파일을 PUG파일에 추가하는 방법(include PUG파일 경로)
+- ex) watch.pug파일에 footer.pug 파일을 추가할 때(경로는 watch.pug파일을 기준으로 하는 상대경로이다.)
+- include partials/footer.pug
