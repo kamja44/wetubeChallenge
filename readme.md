@@ -382,3 +382,45 @@ HTML 확장 시 content 추가 방법
 Pug Iteration Docs
 
 - https://pugjs.org/language/iteration.html
+
+  5.9
+  mixin
+
+- 데이터를 받을 수 있는 partial
+- 즉, 데이터를 받을 수 있는 일종의 미리 만들어진 HTML block
+- partial과 마찬가지로 mixins 폴더를 만들어서 사용한다.
+
+  mixins 사용법
+
+  1. views 폴더에서 mixins폴더 생성 후 mixin파일 생성(ex| mixins/video.pug)
+  2. mixin을 사용할 곳(ex| home.pug)에 mixin 파일을 include한다.
+
+  - ex) mixins폴더의 video.pug
+  - include mixins/video
+
+  3. mixin을 사용할 곳(ex| home.pug)에서 mixin을 사용하기 위해 +mixin이름(mixin객체)를 넣어준다.
+
+  - home.pug에서는 +video(video) <- video라는 이름으로 mixin을 생성하고 video객체(데이터)를 넣어준다.
+
+  4. partials폴더에 mixin을 생성한다.(video.pug)
+  5. video.pug에 mixin mixin이름(받을 데이터)를 작성한다.
+  6. 들여쓰기 후 HTML을 작성한다.
+     ex) home.pug(mixin을 사용하는 pug 파일)
+     extends base.pug
+     include mixins/video.pug
+     block content
+     띄어쓰기 h2 Welcome here you will see the trending Video
+     띄어쓰기 each video in videos
+     띄어쓰기 띄어쓰기 +video(video)
+     띄어쓰기 else
+     띄어쓰기 띄어쓰기 li Sorry nothing found.
+
+  ex) video.pug(mixin)
+  mixin video(info)
+  띄어쓰기 div
+  띄어쓰기 띄어쓰기 h4=info.title
+  띄어쓰기 띄어쓰기 ul
+  띄어쓰기 띄어쓰기 띄어쓰기 li #{info.rating}/5.
+  띄어쓰기 띄어쓰기 띄어쓰기 li #{info.comments} comments.
+  띄어쓰기 띄어쓰기 띄어쓰기 li Posted #{info.createAt}.
+  띄어쓰기 띄어쓰기 띄어쓰기 li #{info.views} views.
