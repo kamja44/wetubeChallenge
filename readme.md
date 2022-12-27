@@ -359,3 +359,26 @@ HTML 확장 시 content 추가 방법
   띄어쓰기 태그
   else
   띄어쓰기 태그
+
+  5.8
+  Iteration
+
+  - 반복문
+  - Controller에서 배열을 변수로 전달했을 경우 배열 사용법(Controller에서 videos라는 배열 전달)
+  - ul
+    띄어쓰기 each video in videos
+    띄어쓰기 띄어쓰기 li=video
+  - 전달받은 videos배열에서 각 요소를 video로 사용한다.
+  - 즉, videos 배열에는 1,2,3,4,5,6,7,8,9,10이 들어있다면
+  - 첫 번째 반복 시 video는 1, 두 번째 반복시 video는 2 ... 이다. 즉, video는 element이다.
+  - 즉, video는 반복상의 현재 값이다.
+  - 전달받은 배열 videos는 Controller가 전달하는 배열과 이름이 같아야 한다.
+  - 배열 안에 아무값도 존재하지 않는다면. else문 사용이 가능하다.
+  - each video in videos
+    띄어쓰기 li=video
+    else
+    띄어쓰기 li Sorry nothing found.
+
+Pug Iteration Docs
+
+- https://pugjs.org/language/iteration.html
