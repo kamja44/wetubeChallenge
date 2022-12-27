@@ -341,3 +341,21 @@ HTML 확장 시 content 추가 방법
 - 간단하게 CSS를 적용시킬 수 있다.
 - base.pug 파일에 적용시켜야 한다.
 - link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+
+  5.7
+  h1=pageTitle
+
+- h1태그에 pageTitle(변수)를 삽입한다.
+- 변수를 #{pageTitle}형식으로 사용해도 같지만, #{pageTitle}은 다른 Text들과 같이 사용할 때 사용한다.
+- 즉, 변수 하나만 사용할 경우 h1=pageTitle로 사용해도 된다.
+
+  conditionals
+
+- 조건문(if else)
+  conditionals 사용법
+  if 조건
+  띄어쓰기 태그
+  else if
+  띄어쓰기 태그
+  else
+  띄어쓰기 태그
