@@ -436,3 +436,9 @@ Pug Iteration Docs
 const {id} = req.params; <- ES6 문법
 const id = req.params.id; <- ES5 문법
 위의 두 코드는 동일하다.
+
+6.1
+
+- 상대경로 절대경로
+  href="/경로" <- root + /경로 즉, 절대경로
+  href="경로" <- 상대경로 즉, 현재경로 + /경로
