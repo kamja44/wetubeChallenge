@@ -442,3 +442,43 @@ const id = req.params.id; <- ES5 문법
 - 상대경로 절대경로
   href="/경로" <- root + /경로 즉, 절대경로
   href="경로" <- 상대경로 즉, 현재경로 + /경로
+
+  6.2
+  form태그
+
+- action 속성은 데이터를 어느 URL로 보낼지 지정할 수 있다.
+- action 속성을 사용하지 않으면 현재 URL로 데이터를 보낸다.
+- method 속성을 이용해서 GET방식인지 POST방식인지 선택할 수 있다.
+- method를 POST로 하여 POST로 데이터를 송신할 경우 controller에서 post 함수를 만들어 줘야 한다.
+- ex) videoRouter.post("url", function);
+- GET 메소드를 사용하면 form에 있는 정보가 URL에 들어간다.
+- POST 메소드를 사용하면 form에 있는 정보가 URL에 들어가지 않는다.
+- 즉, DB관련 작업 = POST, 검색과 같은 데이터를 주고 받는 작업 = GET
+
+  6.3
+  get, post 함수 하나의 route 함수로 사용하기
+
+- videoRouter.get("/:id(\\d+)/edit", getEdit);
+- videoRouter.post("/:id(\\d+)/edit", postEdit);
+- videoRouter.route("/:id(\\d+)/edit").get(getEdit).post(postEdit);
+- 위의 한줄의 route함수는 위의 get, post 함수와 동일한 역할을 한다.
+
+res.redirect()
+
+- 브라우저가 redirect("url")하도록 한다.
+
+POST로 보낸 데이터를 이용하는 방법
+
+1. express.urlencoded를 설정한다.(server.js)
+
+- express application이 form의 value들을 이해할 수 있게 하는 설정, JS형식으로 데이터 변환
+- app.use(express.urlencoded({extended : true})) <- router보다 먼저 사용한다.
+
+2. post로 데이터를 전달하면 req.body에서 얻을 수 있다.
+
+postEdit Controller에서 title값 update 시키기
+
+- const { id } = req.params;
+  const { title } = req.body;
+  videos[id - 1].title = title;
+- id와 title을 가져오고, 전역 변수인 videos배열(현재 video)의 타이틀을 변경된 타이틀로 변경한다.
