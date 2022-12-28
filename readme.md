@@ -424,3 +424,15 @@ Pug Iteration Docs
   띄어쓰기 띄어쓰기 띄어쓰기 li #{info.comments} comments.
   띄어쓰기 띄어쓰기 띄어쓰기 li Posted #{info.createAt}.
   띄어쓰기 띄어쓰기 띄어쓰기 li #{info.views} views.
+
+  6.0
+
+- variable과 text를 섞어서 작성하는 방식은 attribute에서는 사용 불가능하다.
+- li #{video.rating}/5와 같은 방식은 가능
+- a(href="/videos/#{video.id}")와 같은 방식은 불가능
+- template literal사용하여 attribute를 사용한다.
+- a(href=`/videos/${video.id}`)
+
+const {id} = req.params; <- ES6 문법
+const id = req.params.id; <- ES5 문법
+위의 두 코드는 동일하다.
