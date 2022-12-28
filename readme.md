@@ -446,6 +446,7 @@ const id = req.params.id; <- ES5 문법
   6.2
   form태그
 
+- form의 input을 post로 전달할 때 name속성을 지정하지 않으면 전달되지 않는다.
 - action 속성은 데이터를 어느 URL로 보낼지 지정할 수 있다.
 - action 속성을 사용하지 않으면 현재 URL로 데이터를 보낸다.
 - method 속성을 이용해서 GET방식인지 POST방식인지 선택할 수 있다.
