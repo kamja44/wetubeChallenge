@@ -562,3 +562,64 @@ Controller에서 Video model(database)사용법
 - await는 해당 function이 asynchronous일 때만 가능하다.
   Error 제어
 - try catch문 사용
+
+  6.15 ~ 6.16
+  DB에 데이터를 저장하는 방법
+
+1. document 생성(document = 데이터를 가지고 있는 비디오)
+
+- const video = new Video({})
+
+2. 생성한 document(video)안에 video model의 구성요소 담기(video 스키마의 구조와 동일하다.)
+
+- const video = new Video({
+  title,
+  description,
+  createdAt: Date.now(),
+  meta: {
+  views:0,
+  rating:0
+  }
+  });
+
+3. video모델을 저장한다.
+
+- video.save()
+- save는 promise를 return한다. <- async await을 사용한다.
+
+console에서 DB 확인하기[help 명령어를 이용하여 명령어 종류 확인 가능]
+
+1. mongo 명령어를 이용하여 mongo db 접속
+
+- mongo
+
+2. show dbs명령어를 이용하여 db list 출력
+
+- show dbs
+
+3. use 사용할 DB이름 명령어를 이용하여 사용할 DB로 접속
+
+- use wetubeChallenge
+
+4. show collections 명령어를 이용하여 document의 종류 출력
+
+- show collections
+
+5. db.document.find() 명령어를 이용하여 document안의 데이터 확인 가능
+
+- db.videos.find()
+
+Video model에서 Object를 생성하는 2가지 방법
+
+1.  await Video.create({
+    title, description, createAt: Date.now(),
+    hashtags: hashtags.split(",").map((word) => `#{word}`),
+    meta: { views: 0, rating: 0 },
+    });
+
+2.  const video = new Video({
+    title, description, createAt: Date.now(),
+    hashtags: hashtags.split(",").map((word) => `#{word}`),
+    meta: { views: 0, rating: 0 },
+    });
+    await video.save()
