@@ -483,3 +483,30 @@ postEdit Controller에서 title값 update 시키기
   const { title } = req.body;
   videos[id - 1].title = title;
 - id와 title을 가져오고, 전역 변수인 videos배열(현재 video)의 타이틀을 변경된 타이틀로 변경한다.
+
+챌린지
+
+- req.query를 이용하여 사용자가 입력한 값을 가져올 수 있다.
+
+  6.7
+  MongoDB
+
+- MongoDB 설치(community edition)
+- cmd에서 mongod명령을 실행하면 MongoDB설치가 되었는지 확인할 수 있다.
+- cmd에서 mongo명령어를 입력하면 mongoDB shell을 이용할 수 있다.
+
+  Mongoose
+
+- node.js와 mongoDB를 연결한다.
+  mongoose 설치
+- npm i mongoose
+
+db.js
+
+- DB설정파일
+- DB설정파일을 이용하기 위해 server.js파일에서 db.js파일을 파일채로 import한다.
+
+db.js파일의 db.on과 db.once의 차이점
+
+- on <- 이벤트가 여러번 실행가능하다.
+- once <- 이벤트가 한번만 실행된다.
