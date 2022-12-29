@@ -551,3 +551,4 @@ Controller에서 Video model(database)사용법
 - Video.find();
 - Video.find({});의 {} <- Search terms
 - Search terms가 비어있으면 모든 형식을 찾는다.
+- 즉, Search terms가 비어있으므로 모든 형식의 Video를 찾고 Callback 함수를 호출한다.
