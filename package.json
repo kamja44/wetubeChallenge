@@ -7,7 +7,7 @@
     "url": "git+https://github.com/kamja44/wetubeChallenge.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/init.js"
   },
   "author": "",
   "license": "ISC",

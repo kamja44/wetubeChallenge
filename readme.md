@@ -533,3 +533,21 @@ Video model 생성
 const Video = mongoose.model(모델명(video), 스키마명(videoSchema));
 Video 생성 후 export
 export 후 server.js에서 import
+
+6.11
+init.js 파일
+
+- 모든걸 초기화하는 역할
+- db와 Video 모델을 import
+- server에서 export한 app을 improt하여 서버(app) 실행
+- 즉, server.js는 express 된 것들과 server의 configuration에 관련된 코드만 처리하는 파일로 설정한다.
+- app을 실항하는 파일이 server.js에서 init.js로 변경되었으니 package.json의 script 변경
+
+Controller에서 Video model(database)사용법
+
+1. Controller에서 export한 Video model을 import한다.
+2. Controller와 DB를 연결한다.(mongoose document 참조)
+
+- Video.find();
+- Video.find({});의 {} <- Search terms
+- Search terms가 비어있으면 모든 형식을 찾는다.
