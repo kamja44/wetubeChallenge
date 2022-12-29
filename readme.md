@@ -488,7 +488,7 @@ postEdit Controller에서 title값 update 시키기
 
 - req.query를 이용하여 사용자가 입력한 값을 가져올 수 있다.
 
-  6.7
+  6.7 ~ 6.8
   MongoDB
 
 - MongoDB 설치(community edition)
@@ -510,3 +510,26 @@ db.js파일의 db.on과 db.once의 차이점
 
 - on <- 이벤트가 여러번 실행가능하다.
 - once <- 이벤트가 한번만 실행된다.
+
+  6.9
+  CRUD
+
+- CREATE
+- READ
+- UPDATE
+- DELETE
+
+src/models/Video.js
+
+- 비디오 model.js 생성
+- model은 mongoose에게 data의 구조를 설명하는 역할을 한다.
+
+  6.10
+  Schema
+
+- DB의 형식을 정의한다.
+
+Video model 생성
+const Video = mongoose.model(모델명(video), 스키마명(videoSchema));
+Video 생성 후 export
+export 후 server.js에서 import
