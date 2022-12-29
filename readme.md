@@ -552,3 +552,13 @@ Controller에서 Video model(database)사용법
 - Video.find({});의 {} <- Search terms
 - Search terms가 비어있으면 모든 형식을 찾는다.
 - 즉, Search terms가 비어있으므로 모든 형식의 Video를 찾고 Callback 함수를 호출한다.
+
+  6.13
+  Callback Function, Promise, async await
+
+- await를 function앞에 적으면 callback이 필요하지 않다고 명시한다.
+- callback을 이용하면 함수의 동작이 끝난 후 특정 동작을 시작한다.
+- await을 이용하면 함수의 동작이 끝날때까지 JS가 기다린다.
+- await는 해당 function이 asynchronous일 때만 가능하다.
+  Error 제어
+- try catch문 사용
