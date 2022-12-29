@@ -623,3 +623,13 @@ Video model에서 Object를 생성하는 2가지 방법
     meta: { views: 0, rating: 0 },
     });
     await video.save()
+
+6.17
+Video model의 data를 required로 만들기, default값 설정
+
+- createdAt: {type: Date, required: true, default: Date.now}
+- Video.js(Video 모델)에서 createdAt을 default값을 설정했기에 videoController.js에서 createdAt를 삭제한다.
+
+try catch 문을 이용하여 error를 제어하면 error의 \_message 속성을 이용하여 에러 메시지를 볼 수 있다.
+
+- await code에 에러가 발생하면 JS는 더 이상 코드를 실행시키지 않는다.
