@@ -633,3 +633,17 @@ Video model의 data를 required로 만들기, default값 설정
 try catch 문을 이용하여 error를 제어하면 error의 \_message 속성을 이용하여 에러 메시지를 볼 수 있다.
 
 - await code에 에러가 발생하면 JS는 더 이상 코드를 실행시키지 않는다.
+
+  6.19
+
+- videoRouter의 regularExpression 수정
+- 0~9, a~f까지의 문자사용, 24개의 문자로 이루어짐
+
+Mongoose의 findOne
+
+- 자신이 보내는 모든 condition을 적용시킨다.
+- ex) 조회수가 25인 영상 찾기
+
+Mongoose의 findById
+
+- id로 영상을 찾아낼 수 있는 기능 지원
