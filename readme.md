@@ -647,3 +647,10 @@ Mongoose의 findOne
 Mongoose의 findById
 
 - id로 영상을 찾아낼 수 있는 기능 지원
+
+  6.20
+  views/edit.pug
+
+- value= video.hashtags.join()
+- video의 hashtags배열을 ,로 구분된 문자열로 반환한다.
+- join() 함수 안에 문자를 집어넣어 원하는 문자로 구분한 문자열 반환이 가능하다.
