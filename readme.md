@@ -701,3 +701,23 @@ Video.js의 videoSchema pre middleware
 - this는 자기가 가지고 있는 데이터를 의미한다.
 - hashtags는 String array로 선언되었기에 hashtags는 array의 0번째 인덱스에 들어있다.
 - 즉, 자기가 가지고 있는 0번째 hashtags배열을 ,를 기준으로 나누고 #을 붙인다.
+
+Mongoose Middleware Docs
+
+- https://mongoosejs.com/docs/middleware.html
+
+  6.24
+  Mongoose static
+
+- 사용자 정의 함수 만들기
+- Video 모델에서 생성한다.
+- static의 첫 번째 argument는 함수 이름이다.
+- static의 두 번째 argument는 동작할 기능이다.
+- videoSchema.static("formatHashtag", function(hashtags){
+  return hashtags
+  .split(",")
+  .map((word) => (word.startsWith("#") ? word : `#${word}`))
+  });
+
+- videoController.js 파일에서 사용한다.
+- hashtags: Video.formatHashtags(hashtages);
