@@ -679,3 +679,25 @@ videoController.js파일의 postEdit Controller의 video 함수 수정
 - Video 모델의 id는 \_id이다.
 - 즉, Video.\_id와 request.params.id가 같은 경우를 찾는다.
 - Video.exists 함수는 video Object가 아닌 true or false를 반환한다.
+
+  6.23
+  Mongo DB 삭제
+
+  1. show dbs
+  2. use DB이름
+  3. db.videos.remove({})
+     Mongoose의 middleware
+     -Mongoose의 middleware는 무조건 model이 생성되기 전에 만들어야한다.
+
+Video.js의 videoSchema pre middleware
+
+- 즉, pre middleware를 save이벤트에 적용시킨다.
+
+- videoSchema.pre("save", async function () {
+  this.hashtags = this.hashtags[0]
+  .split(",")
+  .map((word) => (word.startsWith("#") ? word : `#${word}`));
+  });
+- this는 자기가 가지고 있는 데이터를 의미한다.
+- hashtags는 String array로 선언되었기에 hashtags는 array의 0번째 인덱스에 들어있다.
+- 즉, 자기가 가지고 있는 0번째 hashtags배열을 ,를 기준으로 나누고 #을 붙인다.
