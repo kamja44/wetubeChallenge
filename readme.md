@@ -721,3 +721,31 @@ Mongoose Middleware Docs
 
 - videoController.js 파일에서 사용한다.
 - hashtags: Video.formatHashtags(hashtages);
+
+  6.25
+  Mongoose Model.find({}).sort()
+
+- sort() 함수를 이용하여 정렬 기준을 정할 수 있다.
+
+form을 보내면 그 내용을 request.body로 받을 수 있다.
+URL로 보낸 정보들은 request.query로 받을 수 있다.
+
+6.26
+MongoDB의 정규표현식을 이용한 비디오 검색
+welcome이라는 이름을 가진 비디오를 찾을 때
+
+- welcome
+- 대소문자 무시 welcome/i
+- g = global welcome/g
+- welcome으로 끝나는 단어 welcome$
+- welcome으로 시작하는 단어 ^welcome
+- regular expression을 사용하기 위해서는 regular expression의 약자인 $regex를 사용해야 한다.
+- ex) title:{
+  $regex: <- new RegExp(keyword, "i") regular expression의 약자(i는 대소문자 무시) 즉, title이 keyword를 포함한 영상을 찾는다.
+  $regex: <- new RegExp(`^${keyword}`, "i") <- keyword로 시작하는 영상만 찾기
+  $regex: <- new RegExp(`${keyword}$`, "i") <- keyword로 끝나는 영상만 찾기
+  }
+
+MongoDB regex Docs
+
+- https://docs.mongodb.com/manual/reference/operator/query/regex/
