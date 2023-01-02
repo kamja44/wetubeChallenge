@@ -654,3 +654,28 @@ Mongoose의 findById
 - value= video.hashtags.join()
 - video의 hashtags배열을 ,로 구분된 문자열로 반환한다.
 - join() 함수 안에 문자를 집어넣어 원하는 문자로 구분한 문자열 반환이 가능하다.
+
+  6.21
+  JS startsWith()
+
+- 문자가 특정 문자로 시작하는지 확인할 수 있다.
+  hashtags.split(",")
+  .map((word) => (word.startsWith("#") ? word : `#${word}`));
+
+  6.22
+  Mongoose Video.findByIdAndUpdate(id,update할 내용)
+
+- video.title = title
+- video.description = description
+- video.hashtags = hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#{word}`));
+  위의 3줄의 코드를 Mongoose의 findByIdAndUpdate 함수를 사용하면 다음과 같이 사용할 수 있다.
+  await Video.findByIdAndUpdate(id, {
+  title, description, hashtags : hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#{word}`));
+  });
+
+videoController.js파일의 postEdit Controller의 video 함수 수정
+
+- Video.findById(id) -> Video.exists({\_id: id})
+- Video 모델의 id는 \_id이다.
+- 즉, Video.\_id와 request.params.id가 같은 경우를 찾는다.
+- Video.exists 함수는 video Object가 아닌 true or false를 반환한다.

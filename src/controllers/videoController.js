@@ -26,10 +26,21 @@ export const getEdit = async (req, res) => {
   }
   return res.render("edit", { pageTitle: `Editing: ${video.title}`, video });
 };
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
   const { id } = req.params;
-  const { title } = req.body;
-
+  const video = await Video.exists({ _id: id });
+  const { title, description, hashtags } = req.body;
+  if (!video) {
+    return res.redirect(`404`, { pageTitle: "Video not found." });
+  }
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    hashtags: hashtags
+      .split(",")
+      .map((word) => (word.startsWith("#") ? word : `#${word}`)),
+  });
+  await video.save();
   return res.redirect(`/videos/${id}`);
 };
 export const getUpload = (req, res) => {
