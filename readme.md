@@ -804,8 +804,24 @@ $or operator
 - 각 조건이 true일 때 실행되게 만든다.
 - usercontrolelr의 postJoin에서 중복되는 email과 usernaem의 중복을 고를 떄 코드가 중복되기에 $or operator을 이용하여 중복 줄이기
 
-userController에서 email과 username 중복 동시에 걸러내기
+userController에서 email과 username 중복 동시에 걸러내기($or operator 사용)
 
-1. username과 email이 존재하는지 exists 함수를 이용하여 체크
+- const exists = await User.exists({$or: [{username},{email}]});
 
-- const usernameExists = await User.exists({username, email})
+username과 email 중복 체크 전 password체크
+
+- if(password !== password2){
+  return res.render("join",{
+  pageTitle,
+  errorMessage: "Password confirmation does not match.",
+  });
+  }
+
+  7.4
+  Status Code Wiki
+
+- https://ko.wikipedia.org/wiki/HTTP_%EC%83%81%ED%83%9C_%EC%BD%94%EB%93%9C
+
+render할 때 status코드 추가하기
+
+- return res.status(statusCode).render();
