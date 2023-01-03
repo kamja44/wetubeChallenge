@@ -749,3 +749,49 @@ welcome이라는 이름을 가진 비디오를 찾을 때
 MongoDB regex Docs
 
 - https://docs.mongodb.com/manual/reference/operator/query/regex/
+
+  7.0
+  User 모델 추가하기
+
+1. Create User Model(src/models/User.js)
+2. init.js파일에 User 모델 import 시키기
+
+User model의 unique <- 단 하나의 값만 가진다. 즉, 중복 X
+
+- new mongoose.Schema({
+  email: {type: String, required: true, unique: true},
+  username: {type:String, required: true, unique: true}
+  })
+
+globalRouter -> rootRouter
+
+- globalRouter.js -> rootRouter.js
+- server.js 파일의 globalRouter -> rooterRouter로 수정
+
+VS CODE 단축키
+
+- ALT + SHIFT + I <- 지정한 곳(드래그)에 다중 커서 만들기
+
+  7.2
+  MongoDB에서 데이터 지우기
+
+- db.model명.remove({})
+
+password 해싱
+
+1. bcrypt 설치
+
+- npm i bcrypt
+
+2. bcrypt 함수 사용
+
+- bcrypt.hash(패스워드, saltRounds(해시함수를 몇 번 반복할지), function(err, hash){
+  // 출력값
+  }) <콜백함수가 아닌 async await도 가능(model/User.js의 userSchema.pre 참조)>
+- 즉, user를 저장하기전 middleware를 이용하여 bcrypt함수(해싱함수)를 사용한다.
+- User모델의 middleware에서 this는 Usermodel에서 create되는 User를 가르킨다.
+- User모델의 해시 함수는 async await를 사용하기에 콜백이 필요없다.
+
+  rainbow table
+
+- 해싱된 password를 이요한 해킹 공격
