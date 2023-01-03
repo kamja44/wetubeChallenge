@@ -795,3 +795,17 @@ password 해싱
   rainbow table
 
 - 해싱된 password를 이요한 해킹 공격
+
+  7.3
+  userController에서 email과 username 중복 걸러내기
+
+$or operator
+
+- 각 조건이 true일 때 실행되게 만든다.
+- usercontrolelr의 postJoin에서 중복되는 email과 usernaem의 중복을 고를 떄 코드가 중복되기에 $or operator을 이용하여 중복 줄이기
+
+userController에서 email과 username 중복 동시에 걸러내기
+
+1. username과 email이 존재하는지 exists 함수를 이용하여 체크
+
+- const usernameExists = await User.exists({username, email})
