@@ -835,3 +835,84 @@ bcrypt.compare(password, hash)
 - password = 유저가 입력한 패스워드
 - hash = DB에 저장된 해시값
 - 결과값으로 true, false가 나온다.
+
+  7.7
+  Session
+
+  - 백엔드와 브라우저 간 어떤 활동을 했는지 기억한다.
+  - 즉, 브라우저와 백엔드 사이의 메모리
+
+Stateless(무상태)
+
+- 한 번 연결이 되었다가 끝남 즉, 백엔드와 프론트엔드 사이에 state가 없다.
+
+Session 미들웨어
+
+1. express-session 설치
+
+- npm i express-session
+
+2. server.js 파일에 session import
+
+- import session from "express-session"
+
+3. router 코드 앞에 초기화
+
+- app.use(session({}))
+
+4. session({})안에 secret, resave, saveUninitialized 작성
+
+- app.use(session({
+  secret:"Hello!",
+  // secret는 아무도 모르는 문자열로 작성
+  resave:true,
+  saveUninitialized: true,
+  }))
+
+5. session 미들웨어는 브라우저에게 text를 보낸다.
+
+- session 미들웨어가 브라우저에게 보낸 text는 개발자도구(F12) -> application -> cookies에서 확인할 수 있다.
+
+쿠키 정보는 request의 headers와 request의 session의 id에서 확인할 수 있다.
+
+app.use((req,res,next) => {
+req.sessionStore.all((error, sessions) => {
+console.log(sessions);
+next();
+})
+})
+
+- request의 sessionStore에는 백엔드가 기억하고있는 쿠키(유저)들을 확인할 수 있다. 즉, 누가 백엔드에 요청을 했는지 알 수 있다.
+- 즉, 세션이란 백엔드가 id(쿠키)를 통해서 기억하는 방식이다.
+
+- 백엔드에 요청을 보낼때 마다 브라우저가 쿠키를 보낸다.
+
+  7.8
+  express(express-session)가 세션을 메모리에 저장하고 있기 때문에 server를 재시작하면 세션은 사라진다. 즉, 세션을 DB와 연결하여 server를 재시작하여도 세션이 존재하게 해야한다.
+
+백엔드가 쿠키를 가지고 브라우저를 구분하는 방법
+
+- 브라우저가 백엔드에게 제공받은 쿠키는 백엔드에서 세션 id로 사용된다. 즉, 브라우저가 요청을 보낼 때마다 그 id(세션 id)를 같이 보내줘서 브라우저와 일치하는 세션이 뭔지 알 수 있다. -> 세션과 세션id는 브라우저를 기억하는 방식 중 하나이다.
+
+세션 id를 가지고 있으면 세션 object에 정보를 추가할 수 있다.
+
+쿠키를 이용하여 브라우저 식별 순서
+
+1. 서버가 브라우저의 요청이 있으면 세션id(쿠키)를 전달한다.
+2. 브라우저가 요청을 보낼 때마다 쿠키에서 세션 id를 가져와 같이 보낸다.
+3. 서버가 세선id(쿠키)를 읽고 브라우저를 식별한다.
+
+app.get("/add-one",(req,res,next) => {
+req.session.원하는 이름 = value
+return res.send(`${req.session.id}`);
+})
+
+- req.session.원하는 이름 = value를 이용하여 session 정보에 data를 추가할 수 있다.
+- 추가한 데이터는 req.session.원하는 이름 으로 출력할 수 있다.
+
+Cookie 정리
+
+1. 브라우저가 서버에 요청을 보낸다.
+2. 서버는 브라우저에게 Cookie를 준다.
+3. 브라우저가 서버에 다시 접근할 때 서버에게 받은 Cookie를 같이 보낸다.
+4. 서버는 세션에 저장된 id와 브라우저가 보낸 cookie를 이용하여 브라우저를 구분할 수 있다.
