@@ -916,3 +916,18 @@ Cookie 정리
 2. 서버는 브라우저에게 Cookie를 준다.
 3. 브라우저가 서버에 다시 접근할 때 서버에게 받은 Cookie를 같이 보낸다.
 4. 서버는 세션에 저장된 id와 브라우저가 보낸 cookie를 이용하여 브라우저를 구분할 수 있다.
+
+7.9
+pug template는 locals Object에 접근할 수 있다.
+locals Object는 middleware의 response에 있다.
+즉, locals Object는 전역 변수이다.(locals Object를 전역 변수로 사용하기 위해서는 middleware를 router에 적용시켜야 한다.)
+즉, locals Object는 pug template에 import된 Object이다.
+
+sessionMiddleware를 localMiddleware보다 앞에서 작성해야 localMiddleware에서 req.session에 접근할 수 있다.
+
+Boolean() 함수를 이용하여 true인지 false인지 구분할 수 있다.
+
+pug teamplate에서 req.locals Object를 사용하기 위해선 locals Object의 객체명만 적으면 된다.
+ex) req.locals.kamja = 44 <- h1=kamja
+
+localMiddleware를 이용하여 pug template과 res.local Object를 공유할 수 있다.
