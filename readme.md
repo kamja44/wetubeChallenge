@@ -825,3 +825,13 @@ username과 email 중복 체크 전 password체크
 render할 때 status코드 추가하기
 
 - return res.status(statusCode).render();
+
+  7.6
+  DB에 저장된 해시된 패스워드와 사용자가 입력한 패스워드를 해시 후 서로 같은지 비교하여 비밀번호 같은지 확인
+
+bcrypt의 compare함수
+bcrypt.compare(password, hash)
+
+- password = 유저가 입력한 패스워드
+- hash = DB에 저장된 해시값
+- 결과값으로 true, false가 나온다.

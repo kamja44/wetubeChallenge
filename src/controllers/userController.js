@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import bcrypt from "bcrypt";
 export const getJoin = (req, res) => res.render("join", { pageTitle: "Join" });
 export const postJoin = async (req, res) => {
   const pageTitle = "Join";
@@ -24,17 +24,48 @@ export const postJoin = async (req, res) => {
       errorMessage: "This username is already taken",
     });
   }
-  await User.create({
-    name,
-    username,
-    email,
-    password,
-    location,
-  });
+  try {
+    await User.create({
+      name,
+      username,
+      email,
+      password,
+      location,
+    });
+  } catch (error) {
+    return res.status(400).render("join", {
+      pageTitle,
+      errorMessage: error._message,
+    });
+  }
   return res.redirect("/login");
+};
+export const getLogin = (req, res) => {
+  return res.render("login", {
+    pageTitle: "Login",
+  });
+};
+export const postLogin = async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  const pageTitle = "Login";
+  if (!user) {
+    return res.status(400).render("login", {
+      pageTitle,
+      errorMessage: "An account with this username does not exists.",
+    });
+  }
+  const ok = await bcrypt.compare(password, user.password);
+  if (!ok) {
+    return res.status(400).render("login", {
+      pageTITLE,
+      errorMessage: "Wrong password",
+    });
+  }
+
+  return res.render("/");
 };
 export const edit = (req, res) => res.send("Edit User");
 export const Remove = (req, res) => res.send("Remove User");
-export const login = (req, res) => res.send("User Login");
 export const logout = (req, res) => res.send("User Logout");
 export const see = (req, res) => res.send("See User Profile");
