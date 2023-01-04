@@ -884,6 +884,7 @@ next();
 
 - request의 sessionStore에는 백엔드가 기억하고있는 쿠키(유저)들을 확인할 수 있다. 즉, 누가 백엔드에 요청을 했는지 알 수 있다.
 - 즉, 세션이란 백엔드가 id(쿠키)를 통해서 기억하는 방식이다.
+- Session store는 session을 저장하는 곳이다. 서버를 껏다 키면 Session store도 초기화된다.
 
 - 백엔드에 요청을 보낼때 마다 브라우저가 쿠키를 보낸다.
 
@@ -931,3 +932,9 @@ pug teamplate에서 req.locals Object를 사용하기 위해선 locals Object의
 ex) req.locals.kamja = 44 <- h1=kamja
 
 localMiddleware를 이용하여 pug template과 res.local Object를 공유할 수 있다.
+
+7.11
+Recap
+request.session에 데이터를 넣으면
+ex) request.session.user = "kamja"
+request.session의 user를 controller 어디서나 사용할 수 있다.
