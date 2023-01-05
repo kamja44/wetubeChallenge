@@ -29,6 +29,6 @@ app.use(
 app.use(localsMiddleware);
 app.use("/", rootRouter);
 app.use("/videos", videoRouter);
-app.use("users", userRouter);
+app.use("/users", userRouter);
 
 export default app;

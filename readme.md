@@ -1037,3 +1037,59 @@ dotenv 패키지를 require("dotenv").config() 방식으로 사용한다면 proc
 
 - require("dotenv").config() -> import "dotenv/config";
 - 즉, node가 가장 먼저 사용하는 파일인 init.js파일의 최상단에 import "dotenv/config"를 작성한다.
+
+  7.16 ~ 7.17
+  Social Login(github)
+
+Social Login 흐름
+
+1. 사용자를 소셜(깃, 카카오 등)으로 보낸다.
+2. 사용자는 소셜에 이메일 패스워드 등을 제공한다.
+3. 소셜이 정보공유를 승인한 후 사용자를 웹사이트로 돌려보낸다. 즉, 소셜은 사용자를 token과 함께 redirect 시킨다.
+4. 사용자가 받아온 token을 이용하여 사용자의 정보를 소셜로부터 받아온다.
+5. token이 만료된다.
+
+Github OAuth Docs
+
+- https://docs.github.com/ko/developers/apps/building-oauth-apps/scopes-for-oauth-apps
+
+Github Login 연동시키기
+
+1. Github의 Developer settings 들어가기
+
+- github.com/settings/apps
+
+2. OAuth Apps -> New OAuth App 누르기
+3. Application name, Homepage URL, Authorization callback URL 설정
+
+- Application name = wetubeChallenge
+- Homepage URL = http://localhost:4000/
+- Authorization callback URL = http://localhost:4000/users/github/finish (꼭 이 URL이 아니여도 된다. 추후 설명)
+
+4. 생성된 OAuth Apps에서 Client ID가 있는지 확인
+5. Github로 데이터를 보내기 위해 template(pug)에서 Github로 연결시키기(연결시킬때 url에 4.에서 확인한 Client ID를 같이 보내야 한다.)
+
+- https://github.com/login/oauth/authorize?client_id=543c3d329541f1c9dcb1
+
+6. 기본 제공 데이터보다 더 많은 데이터를 원할경우 &scope 속성을 사용한다. 즉, 사용자에게 얻을 정보를 &scope 속성을 사용하여 지정할 수 있다. 여러개의 데이터를 얻을 경우 공백을 이용한다.
+   ex) user와 email정보를 얻고 싶을 때
+
+- &scope=read:user user:email
+
+JS
+new URLSearchParams(option).toString();
+
+- URLSearchParams(option).toString()을 사용하면 option에 있는 값들을 URL에 넣을 수 있는 형식으로 변환 후 문자형으로 변경한다.
+- 즉, userController.js파일에서
+- const baseUrl = "https://github.com/login/oauth/authorize"
+- const config = {
+  client_id: "543c3d329541f1c9dcb1",
+  allow_signup: false,
+  scope: "read:user user:email"
+  }
+- const params = new URLSearchParams(config).toString();
+- const finalUrl = `${baseUrl}?${params}`;
+- 즉, finalUrl은 위의 5. 6.번에서 Github로 연동시킬 URL이 된다.
+- 그 후 finalUrl로 redirect시킨다.
+
+7. Github 연동 화면으로 넘어간 후 Authorize 닉네임 버튼을 클릭(권한 부여 수락)하면 3.에서 설정한 Authorization callback URL로 redirect 시켜주며, user의 code를 URL(Authorization callback URL)에 같이 첨부하여 보낸다.
