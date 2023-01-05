@@ -983,3 +983,57 @@ saveUninitialzed
 - 세션이 새로 만들어지고 수정된 적이 없을 때 즉, 초기화 되지 않은 세션
 - 세션은 userController.js 파일의 postLogin 상수의 req.session.loggedIn = true; req.session.user = user; 부분에서 초기화된다 즉, 세션을 수정(로그인)할 때만 세션을 DB에 저장하고 쿠키를 넘겨준다.
 - 즉, saveUninitialzed 옵션을 false로 설정하면 세션을 초기화(로그인)한 사용자에게만 쿠키를 할당하도록 설정한다.(익명 사용자에게는 세션을 할당하지 않는다.)
+
+  7.14 ~ 7.15
+  Cookie's property
+
+- session middleware에서 cookie:{} 중괄호 안에 옵션을 사용할 수 있다.
+  secret
+
+- 사용자가 쿠키에 sign 할 때 사용하는 string
+- 쿠키에 sign하는 이유는 backend가 쿠키를 줬다는걸 보여주기 위함이다.
+- session Hijecking 공격을 방지하기 위해 secret 옵션을 길고 무작위로 작성해야 한다.
+- 즉, secret옵션의 string을 가지고 우리가 만든 쿠키임을 증명할 수 있다.
+
+  Domain
+
+- 쿠키를 만든 backend가 누구인지 알려준다.(브라우저는 Domain에 따라 쿠키를 저장하도록 되어있다.)
+- 쿠키는 Domain에 있는 backend로만 전송된다.
+- 즉, Domain은 쿠키가 어디에서 왔는지, 어디로 가야하는지 알려준다.
+
+  Expires
+
+- 만료일자
+- 만료일자를 지정하지 않으면 session cookie로 설정된다. session cookie로 설정될 경우, 사용자가 종료하면 session cookie는 종료된다. 즉, 사용자가 종료하지 않으면 session cookie는 계속 존재한다.
+
+  Max-Age
+
+- 쿠키가 얼마나 오래 존재할 수 있는지 명시한다. 값은 1/1000초 단위이다.
+
+환경변수
+
+- session middleware의 secret과 MongoStore.create의 mongoUrl의 string들이 보여지면 안되기에 환경변수로 설정한다.
+
+1. 가장 바깥 경로(src 바깥 즉, package.json과 같은 경로(옆))에 .env 파일을 생성한다.
+2. .gitignore 파일 안에 .env를 추가한다.
+3. .env 파일에는 코드에 들어가면 안되는 값들(보여지면 안되는 값들)을 추가한다.
+   3-1. .env 파일에 추가하는 모든건 관습적으로 대문자로 작성해야 한다.
+   3-2. 코드에 들어가면 안되는 값들의 예로는 API Key, DB URL등이 있다.
+   3-3 .env 파일에 들어갈 변수 작성 예
+   ex) kamja=asdfo2ifd09viosd
+
+4. .env파일에 작성한 값을 사용하기 위해 process.env.변수명 을 작성하여 사용한다.
+5. .env 파일을 읽기 위하여 dotenv 패키지를 설치한다.
+
+- npm i dotenv
+- dotenv 패키지는 .env 파일을 읽고 각각의 변수들을 process.env 안에 넣어준다.
+
+6. 코드의 가장 위에 dotenv패키지를 설정한다.(프로그램이 가장 먼저 시작되는 파일 가장 위 즉, package.json 파일의 scripts속성을 보면 시작할 때 가장 먼저 init.js파일을 사용한다. 즉, init.js파일의 최상단에 require("dotenv").config()를 사용해야 한다.)
+
+- require("dotenv").config()
+- require("dotenv").config()코드를 읽기 전 process.env.변수명 코드를 사용한다면 변수명을 읽을 수 없다.
+
+dotenv 패키지를 require("dotenv").config() 방식으로 사용한다면 process.env.변수명을 사용하는 모든 파일의 최상단에 require("dotenv").config() 코드를 명시해야 하기에 import 방식으로 수정한다.
+
+- require("dotenv").config() -> import "dotenv/config";
+- 즉, node가 가장 먼저 사용하는 파일인 init.js파일의 최상단에 import "dotenv/config"를 작성한다.
