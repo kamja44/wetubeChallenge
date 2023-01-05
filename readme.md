@@ -938,3 +938,40 @@ Recap
 request.session에 데이터를 넣으면
 ex) request.session.user = "kamja"
 request.session의 user를 controller 어디서나 사용할 수 있다.
+
+7.12
+Session data는 쿠키안에 저장되는게 아닌 서버에 저장된다. 쿠키에는 Session id만 저장된다.
+
+session middleware의 store 속성
+
+- default로 설정된 것과는 다른 store를 설정할 수 있다.
+- store: MongoSotre.create({})한다.
+- MongoStore를 생성할 때 option으로 mongoUrl을 보낸다.
+
+connect-mongo
+
+- 세션을 MongoDB에 저장한다.
+
+1. connect-mongo 다운로드
+
+- npm i connect-mongo
+
+2. server.js에 MongoStore import
+
+- import MongoStore from "connect-mongo"
+
+3. MongoStore create
+
+- mongoDB의 URL을 가지고 있는 configuration object를 생성한다.
+
+4. MongoStore의 option으로 mongoUrl보내기
+
+- store: MongoStore.create({
+  mongoUrl: "mongoUrl"
+  });
+
+5. 생성된 session은 MongoDB의 collections에서 확인할 수 있다.
+
+- session은 id, 만료일자, session정보를 가지고 있다.
+
+session의 store속성(store: MongoStore.create({}))부분을 지우면 세션은 서버의 메모리에 저장된다. 즉, 서버를 재시작 할 때마다 메모리가 지워진다.

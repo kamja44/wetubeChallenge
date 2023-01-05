@@ -5,6 +5,7 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import session from "express-session";
 import { localsMiddleware } from "./middlewares.js";
+import MongoStore from "connect-mongo";
 const app = express();
 
 app.set("view engine", "pug");
@@ -17,6 +18,9 @@ app.use(
     secret: "Hello!",
     resave: true,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: "mongodb://127.0.0.1:27017/wetubeChallenge",
+    }),
   })
 );
 app.use(localsMiddleware);
