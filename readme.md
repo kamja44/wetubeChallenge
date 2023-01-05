@@ -1093,3 +1093,39 @@ new URLSearchParams(option).toString();
 - 그 후 finalUrl로 redirect시킨다.
 
 7. Github 연동 화면으로 넘어간 후 Authorize 닉네임 버튼을 클릭(권한 부여 수락)하면 3.에서 설정한 Authorization callback URL로 redirect 시켜주며, user의 code를 URL(Authorization callback URL)에 같이 첨부하여 보낸다.
+
+7.18 ~ 7.19
+
+8. Github에서 받은 토큰을 Access 토큰으로 바꿔준다.
+
+client_id를 어디서든 사용이 가능하게 env 파일에 설정하고, userController.js 파일의 config 상수의 client_id를 process.env.GH_CLIENT로 변경한다.
+client_secret
+
+- 오로지 백엔드에만 존재해야한다. 즉, 코드 어디에서도 보이면 안된다.
+- 즉, 사용자가 권한을 허락한 후 받은 정보들을 종합하여 URL 생성 후 POST REQUEST한다. 즉, fetch함수를 사용하여 생성한 URL로 정보를 요청한다.
+- const config = {
+  client_id: process.env.GH_CLIENT,
+  client_secret: process.env.GH_SECRET,
+  code:req.query.code,
+  }
+- client_id와 client_secret는 생성된 OAuth Apps에서 확인할 수 있다.(client_secret가 없다면. client_secret를 생성해야한다.)
+- POST REQUEST 시킬 baseURL은 "https://github.com/login/oauth/access_token"이다.
+- fetch함수를 사용해서 finalURL로 데이터를 요청한 후 받아온 데이터를 JSON 형식으로 변환한다.
+- fetch함수를 사용할 때 headers 속성안에 Accpet:"application/json" 속성을 사용하지 않으면 json형식이 아닌 text 형식으로 데이터를 받아온다.
+- node-js(18버전 이하)에서 fetch함수를 사용하기 위해서 npm i node-fetch@2를 한 후 fetch함수를 사용할 파일의 최상단에 import fetch from "node-fetch"를 적어준다.
+- fetch함수로 finalUrl에 POST REQUEST를 시키면 Github는 요청한 데이터(Access Token)를 보내준다. 받은 데이터를 JSON 형식으로 변환한다.
+
+9. Github가 제공한 Access Token을 가지고 Github API를 이용하여 user정보를 얻는다.
+
+- Github가 제공한 json 데이터에 access_token이 있는 경우 Github API를 이용한다.
+- const json=await data.json();
+  if("access_token" in json){
+  const {access_token} = json;
+  const userRequest = await fetch("Github API URL",{
+  headers{
+  Authorization: `token ${access_token}`,
+  }
+  })
+  }
+- fetch 함수를 이용하여 Github API URL에 데이터를 요청할 때 header속성에 Authorization 속성에 access_token을 넣어줘야 한다.
+- fetch 함수를 이용하여 Github API URL에 데이터를 요청하면 Github의 프로필 정보를 가져올 수 있다.
