@@ -975,3 +975,11 @@ connect-mongo
 - session은 id, 만료일자, session정보를 가지고 있다.
 
 session의 store속성(store: MongoStore.create({}))부분을 지우면 세션은 서버의 메모리에 저장된다. 즉, 서버를 재시작 할 때마다 메모리가 지워진다.
+
+7.13
+로그인한 사용자에게만 세션을 할당할 수 있도록 session middleware의 resave 옵션과 saveUninitialized 옵션을 false로 설정한다.
+saveUninitialzed
+
+- 세션이 새로 만들어지고 수정된 적이 없을 때 즉, 초기화 되지 않은 세션
+- 세션은 userController.js 파일의 postLogin 상수의 req.session.loggedIn = true; req.session.user = user; 부분에서 초기화된다 즉, 세션을 수정(로그인)할 때만 세션을 DB에 저장하고 쿠키를 넘겨준다.
+- 즉, saveUninitialzed 옵션을 false로 설정하면 세션을 초기화(로그인)한 사용자에게만 쿠키를 할당하도록 설정한다.(익명 사용자에게는 세션을 할당하지 않는다.)
