@@ -14,7 +14,7 @@ html(lang = "ko")
                         li
                             a(href="/logout") Log Out
                         li
-                            a(href="/my-profile") #{loggedInUser.name}'s Profile
+                            a(href="/my-profile") #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
                     else
                         li
                             a(href="/join") Join

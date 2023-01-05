@@ -1129,3 +1129,35 @@ client_secret
   }
 - fetch 함수를 이용하여 Github API URL에 데이터를 요청할 때 header속성에 Authorization 속성에 access_token을 넣어줘야 한다.
 - fetch 함수를 이용하여 Github API URL에 데이터를 요청하면 Github의 프로필 정보를 가져올 수 있다.
+
+  7.20
+  email이 null로 오기에 emailData를 받아오기 위한 fetch 함수를 작성한다.
+
+- const emailData = await(
+  await fetch(`${apiUrl}/user/emails`,{
+  headers:{
+  Authorization: `token ${access_token}`,
+  },
+  })
+  ).json();
+- emailData에서 받은 데이터 중 verified이면서 primary인 데이터를 찾는다.
+
+- userData와 emailData는 access_token이 볼 수 있게 허락했기에 작동한다.(scope 부분에서 원하는 권한 요청(user데이터와 email데이터))
+
+JS find()
+
+- 제공된 조건을 만족하는 배열의 첫 번째 요소를 반환한다. undefined가 반환된다면 조건을 만족하는 값이 없다.
+
+  7.21
+
+- Github로 계정을 생성한 유저는 email만 있고 password가 없다.
+- 웹사이트에서 계정을 생성한 유저는 email과 password가 있다.
+- 웹사이트에서 로그인한 유저와 깃허브에서 로그인한 유저 모두 email이 있기에 email이 DB에 존재한다면 로그인시킨다. 즉, 한 유저가 웹사이트에서 kamja@email.com으로 계정을 생성하고, 깃허브 이메일이 kamja@email.com인 계정으로 연동을 했을 때 이메일이 kamja@email.com으로 같으니 로그인시킨다.
+- const existingUser = await User.findOne({email: emailObj.email});
+- if(existingUser){
+  req.session.loggedIn = true;
+  req.session.user = user;
+  returen res.redirect("/");
+  }
+- 만일 계정이 없다면 else문을 사용하여 계정을 생성한다.
+  -user가 깃허브로 로그인했는지 여부를 알기 위해 user스키마에 socialOnly를 추가한다.(Model/User.js)
