@@ -1161,3 +1161,8 @@ JS find()
   }
 - 만일 계정이 없다면 else문을 사용하여 계정을 생성한다.
   -user가 깃허브로 로그인했는지 여부를 알기 위해 user스키마에 socialOnly를 추가한다.(Model/User.js)
+
+  7.22
+  req.session.destroy()
+
+- request의 session을 로그아웃할 때 제거한다.
