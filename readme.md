@@ -1199,3 +1199,43 @@ Middleware 사용법(적용법)[route]
 - all(미들웨어) <- get요청과 post요청 모두 all 함수 안의 미들웨어를 사용한다.
 - /edit URL로 접근하면, protectorMiddleware를 실행한 후 get(), post() 함수를 실행한다.
 - all() 함수는 get,post와 같은 http method에 모두 적용이 가능하다.
+
+  8.2
+  profile을 edit(update)해도 form에서 update되지않는 문제 but DB는 업데이트 되어있음
+
+- 1. edit-profile.pug 파일에서 value를 loggedInUser의 값으로 입력
+- 2. loggedInUser는 localsMiddleware에서 생성된다.(localMiddleware에서 loggedInUser를 req.session.user로 정의한다.)
+- 3. localsMiddleware는 login할 때 작동하는 Middleware이다. 즉, req.session.user는 로그인 할 때(userController의 postLogin) 생성된다.
+- 4. 즉, user는 업데이트 되었지만 session이 업데이트 되지 않았다. <- session이 DB와 연결되어 있지 않기에 발생하는 현상 <- session을 업데이트 하여 문제 해결할 수 있다.
+
+  8.3
+
+Session은 DB(Mongo Store)에 저장되어있다.
+
+JS ES6
+...req.session.user
+
+- res.session.user 안의 내용을 밖으로 꺼내준다.
+
+session 업데이트 방법
+
+- const {
+  session: {
+  user: { \_id },
+  },
+  body: { name, email, username, location },
+  } = req;
+  const updatedUser = await User.findByIdAndUpdate(\_id, {
+  name,
+  email,
+  username,
+  location,
+  }, {new: true});
+  req.session.user = updatedUser;
+
+findByIdAndUpdate는 update 되기 전의 데이터를 return 해준다.
+findByIdAndUpdate를 사용할 때 new:true를 설정해주면 findByIdAndUpdate가 업데이트된 데이터를 return 한다. 즉, mongoose에게 가장 최근 업데이트된 object를 요청한다.
+
+Code Challenge
+
+- user가 uesrname or email을 변경하려 할 때 중복검사
