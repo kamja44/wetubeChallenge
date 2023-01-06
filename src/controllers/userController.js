@@ -147,10 +147,51 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, email: sessionEmail, username: sessionUsername },
     },
     body: { name, email, username, location },
   } = req;
+  console.log("=======body========", req.body);
+  console.log("=======session========", req.session);
+  console.log(sessionEmail, "===", email);
+  console.log(sessionUsername, "===", username);
+  if (sessionEmail === email) {
+    if (sessionUsername === username) {
+      return res.render("edit-profile", {
+        pageTitle: "Edit Profile",
+        user: req.session.user,
+        errorMessage: "This Username is Already Taken",
+      });
+    }
+  } else if (sessionUsername === username) {
+    if (sessionEmail === email) {
+      return res.render("edit-profile", {
+        pageTitle: "Edit Profile",
+        user: req.session.user,
+        errorMessage: "This Email is Already Taken",
+      });
+    }
+  } else if (sessionUsername === username && sessionEmail === email) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit Profile",
+      user: req.session.user,
+      errorMessage: "This Email & Username is Already Taken",
+    });
+  }
+  // if (sessionEmail === email) {
+  //   return res.render("edit-profile", {
+  //     pageTitle: "Edit Profile",
+  //     user: req.session.user,
+  //     errorMessage: "This Email is Already Taken",
+  //   });
+  // }
+  // if (sessionUsername === username) {
+  //   return res.render("edit-profile", {
+  //     pageTitle: "Edit Profile",
+  //     user: req.session.user,
+  //     errorMessage: "This Username is Already Taken",
+  //   });
+  // }
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
