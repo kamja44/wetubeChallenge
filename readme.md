@@ -1166,3 +1166,12 @@ JS find()
   req.session.destroy()
 
 - request의 session을 로그아웃할 때 제거한다.
+
+  8.0
+  Recap
+
+- localsMiddleware에는 loggedIn 변수가 있다.
+- loggedIn 변수는 session에 user가 있는지 확인한다. 즉, base.pug에서 로그인 유무를 판단할 때 loggedIn 변수를 사용한다.(loggedIn변수는 session에 있기에 글로벌에서 사용 가능하다.)
+
+- form의 action을 지정하지 않으면 같은 url(지금의 url)로 데이터를 보낸다.
+- middleware.js파일의 res.locals.user의 값이 없는 경우를 대비하여 || {}를 추가한다.
