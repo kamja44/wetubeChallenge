@@ -1175,3 +1175,27 @@ JS find()
 
 - form의 action을 지정하지 않으면 같은 url(지금의 url)로 데이터를 보낸다.
 - middleware.js파일의 res.locals.user의 값이 없는 경우를 대비하여 || {}를 추가한다.
+
+  8.1
+  protectorMiddleware
+
+- 사용자가 로그인 상태가 아니라면 로그인 페이지로 redirect시키고, 로그인 상태라면 next()함수를 호출하여 다음 작업 진행
+
+publicOnlyMiddleware
+
+- 로그인한 사용자가 로그인 페이지로 접근하는 것을 막는 미들웨어 즉, 로그인 되지 않은 사용자라면 next()함수를 호출하여 다음작업 진행, 로그인 된 사용자라면 home으로 redirect
+
+Middleware 사용법(적용법)[get, post]
+
+- ex) userRouter에 protectorMiddelware 적용
+- userRouter.get("/logout", protectorMiddleware, logout);
+- /logout URL로 get요청을 받으면, protectorMiddleware호출, protectorMiddelware가 next()함수를 return하면 logout Controller 실행, protectorMiddleware에서 return하면 return문을 수행하고 미들웨어 종료
+- post요청도 get과 동일하게 사용
+
+Middleware 사용법(적용법)[route]
+
+- ex) userRouter에 protectorMiddleware적용
+- userRouter.route("/edit").all(protectorMiddleware).get(getEdit).post(postEdit);
+- all(미들웨어) <- get요청과 post요청 모두 all 함수 안의 미들웨어를 사용한다.
+- /edit URL로 접근하면, protectorMiddleware를 실행한 후 get(), post() 함수를 실행한다.
+- all() 함수는 get,post와 같은 http method에 모두 적용이 가능하다.
