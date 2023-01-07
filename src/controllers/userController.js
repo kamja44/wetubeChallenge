@@ -34,6 +34,7 @@ export const postJoin = async (req, res) => {
       location,
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).render("join", {
       pageTitle,
       errorMessage: error._message,
@@ -145,53 +146,30 @@ export const getEdit = async (req, res) => {
   });
 };
 export const postEdit = async (req, res) => {
+  console.log("res", res);
   const {
     session: {
       user: { _id, email: sessionEmail, username: sessionUsername },
     },
     body: { name, email, username, location },
+    file,
   } = req;
-  console.log("=======body========", req.body);
-  console.log("=======session========", req.session);
-  console.log(sessionEmail, "===", email);
-  console.log(sessionUsername, "===", username);
-  if (sessionEmail === email) {
-    if (sessionUsername === username) {
-      return res.render("edit-profile", {
-        pageTitle: "Edit Profile",
-        user: req.session.user,
-        errorMessage: "This Username is Already Taken",
-      });
-    }
-  } else if (sessionUsername === username) {
-    if (sessionEmail === email) {
-      return res.render("edit-profile", {
-        pageTitle: "Edit Profile",
-        user: req.session.user,
-        errorMessage: "This Email is Already Taken",
-      });
-    }
-  } else if (sessionUsername === username && sessionEmail === email) {
-    return res.render("edit-profile", {
-      pageTitle: "Edit Profile",
-      user: req.session.user,
-      errorMessage: "This Email & Username is Already Taken",
-    });
+  let searchParam = [];
+  if (sessionEmail !== email) {
+    searchParam.push({ email });
   }
-  // if (sessionEmail === email) {
-  //   return res.render("edit-profile", {
-  //     pageTitle: "Edit Profile",
-  //     user: req.session.user,
-  //     errorMessage: "This Email is Already Taken",
-  //   });
-  // }
-  // if (sessionUsername === username) {
-  //   return res.render("edit-profile", {
-  //     pageTitle: "Edit Profile",
-  //     user: req.session.user,
-  //     errorMessage: "This Username is Already Taken",
-  //   });
-  // }
+  if (sessionUsername !== username) {
+    searchParam.push({ username });
+  }
+  if (searchParam.length > 0) {
+    const foundUser = await User.findOne({ $or: searchParam });
+    if (foundUser && foundUser._id.toString() !== _id) {
+      return res.status(400).render("edit-profile", {
+        pageTitle: "Edit Profile",
+        errorMessage: "This username/email is already taken.",
+      });
+    }
+  }
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {

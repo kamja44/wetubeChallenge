@@ -1236,6 +1236,13 @@ session 업데이트 방법
 findByIdAndUpdate는 update 되기 전의 데이터를 return 해준다.
 findByIdAndUpdate를 사용할 때 new:true를 설정해주면 findByIdAndUpdate가 업데이트된 데이터를 return 한다. 즉, mongoose에게 가장 최근 업데이트된 object를 요청한다.
 
+8.3
 Code Challenge
 
 - user가 uesrname or email을 변경하려 할 때 중복검사
+
+MongoDB 삭제 후 스키마 재시작 방법
+
+1. mongo
+2. use dbName
+3. db.dropDatabase();
