@@ -1342,3 +1342,45 @@ password 변경 방법
 1. postEdit Controller 동작 전 multer middleware가 실행되어 template의 input에서 오는 avatar 파일을 uploads 폴더에 저장한다.
 2. Controller인 postEdit에 upload한 파일의 정보를 전달한다.
 3. 2.의 과정을 거치면 request에 file정보가 추가된다. 즉, request.file을 사용할 수 있다. 즉, request.file에는 "avatar"정보가 들어있고 request.body에도 "avatar"정보가 들어간다.
+
+8.7
+avatarUrl 업데이트
+
+- 사용자가 avatarUrl을 업데이트하지면 file:path는 undefined인 상태로 avatarUrl이 업데이토되는 문제 발생 <- file이 undefined가 아닐경우 file.path로 avatarUrl설정 file이 undefined인 경우 기존user가 가지고 있는 avatarUrl로 avatarUrl을 설정한다.
+
+* DB에는 파일을 저장하면 안된다. \*
+* 폴더에 파일을 저장한 후 DB에는 파일의 위치만 저장한다. \*
+
+loggedInUser는 현재 로그인 된 사용자이다.
+
+- middlewares.js 파일의 localsMiddleware에서 확인가능
+- localsMiddleware를 통해 template에 정보 전달 가능 즉, 우리가 locals에 저장하는 모든 정보는 views에서 사용이 가능하다.
+- res.locals.loggedInUser에 req.session.user || {}를 저장하고 있기에 session에 저장된 user 정보를 모든 template에서 사용할 수 있다.
+
+avatarImg 오류
+
+1.  edit-profile.pug 파일에서 img(src=loggedInUser.avatarUrl, width="100", height="100")을 사용하여 avatarImg를 표현하려고 했는데 url이 상대주소로 작동하여 url 경로에 오류 발생
+
+2 . img(src=`/${loggedInUser.avatarUrl}`, width="100", height="100")로 설정하여 상대경로를 절대경로로 설정 but 오류 지속 <- express는 uplaods 폴더가 존재하는지 모른다. 즉, express한테 누군가 uplaods폴더에 접근한다고 명시한 적이 없다.
+
+8.8
+static Files
+
+- static File로 지정한 페이지와 폴더는 브라우저가 접근할 수 있다.
+
+Stacic File 만들기(/uploads 폴더)
+
+1. server.js파일에 global router 만들기
+
+- app.use("/uploads")
+
+2. 생성한 global router에 express.static() 함수 사용하기
+
+- 생성한 static()에는 노출시키고 싶은 폴더의 이름을 명시한다. 즉, static(static폴더명)
+- app.use("/uploads", express.static("uplaods"))
+
+static File의 문제점
+
+1. 파일을 서버에 저장하고 있다.
+
+- 서버가 업데이트 되면 기존에 있던 파일들은 삭제된다. 즉, 서버가 재시작되면 기존에 있단 파일들 이 삭제된다.
