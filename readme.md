@@ -1490,3 +1490,29 @@ userRouter.get("/:id", see);
 
 - req.session.user는 현재 로그인된 사용자이다.
 - try문에서 Video를 생성할 때 owner를 만들어주는데 owner의 속성(\_id)는 현재 로그인된 사용자의 id(req.session.user.\_id)이다. 즉, video의 owner로 현재 로그인 중인 유저의 id를 사용한다. 즉, 로그인한 후 video를 업로드하면 업로드한 사람의 id가 video의 owner가 된다.
+
+  8.10~8.11 코드 리뉴얼
+
+- videoController.js파일에서 watch 컨트롤러 에서 owner 상수 제거 후 video 상수 수정
+- const video = await (await Video.findById(id)).populate("owner");
+- populate("owner") <- video.owner 부분을 실제 데이터로 채워준다. 즉, video.owner에 user모델이 들어간다.() 즉, mongoose가 video를 찾고 그 안에서 video의 owner도 찾는다.video.owner에는 영상을 업로드한 사람의 id가 들어가있다. 즉, owner가 가지고 있는 id로 user모델에서 user의 id가 owner와 동일한 id를 찾는다. <- mongoose가 해당 User를 찾고 video를 로드했을 때, User 정보도 얻을 수 있다. 즉, populate("owner")를 하면 User 객체 전체를 값으로 가진다.
+
+watch.pug teamplate의 if문 수정
+
+- if(String(loggedInUser.\_id) === String(video.owner.\_id))
+
+  8.12
+  특정 사용자가 업로드한 모든 영상을 볼 수 있게 만들기
+
+1. userController.js파일의 see Controlelr에서 Video의 owner가 URL에 있는 id와 같은(영상 id와 같은) video를 찾는다. 즉, 영상 소유자의 id와 user의\_id가 같은 모든 영상을 찾는다.
+
+- const videos = await Video.find({owner: user.\_id});
+
+2. profile.pug에서 mixins을 사용하여 찾은 video를 표출한다.
+
+- include ../mixins/video
+  block content
+  띄어쓰기 each video in videos
+  띄어쓰기 띄어쓰기 +video(video)
+  띄어쓰기 else
+  띄어쓰기 띄어쓰기 li Sorry Nothing Found.

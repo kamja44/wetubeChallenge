@@ -1,5 +1,4 @@
 import Video from "../models/Video.js";
-import User from "../models/User.js";
 
 export const home = async (req, res) => {
   try {
@@ -12,10 +11,9 @@ export const home = async (req, res) => {
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id);
-  const owner = await User.findById(video.owner);
+  const video = await (await Video.findById(id)).populate("owner");
   if (video) {
-    return res.render("watch", { pageTitle: video.title, video, owner });
+    return res.render("watch", { pageTitle: video.title, video });
   }
   return res.status(404).render("404", { pageTitle: "Video not Found" });
 };
