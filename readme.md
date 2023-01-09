@@ -1540,3 +1540,24 @@ watch.pug teamplate의 if문 수정
 - const user = await User.findById(\_id);
 - user.videos.push(newVideo.\_id);
 - user.save();
+
+  8.14
+  Bug Fixing
+
+1. save()를 할때마다(User 모델의 pre middleware(userSchema.pre()))를 실행할 때마다 password를 해싱한다. 즉, 이미 해시된 패스워드를 패시한다. <- 비밀번호가 수정될때만 패스워드를 hash한다.
+
+- User.js파일의 userSchema.pre() 미들웨어에서 this.isModified("password") 메서드를 사용하여 password가 변경되었을 때만 password를 해시하게 설정한다.
+- isModified("매개변수")메서드는 매개변수가 수정되었을때 true를 반환하고, 매개변수가 수정되지 않았을때는 false를 반환한다.
+- User.js 파일의 userSchema.pre() 미들웨어에서 this는 user와 같다.
+- if(this.isModified("password")){
+  this.password = await bcrypt.hash(this.password, 5);
+  }
+
+2. videoController.js 파일의 getEdit 컨트롤러에서 edit form을 보여주는데, edit form을 모든 사용자에게 보여주는 에러(즉, video 사용자만 edit form을 볼 수 있어야 한다.)
+
+- video의 owner(video의 id)와 session 유저의 아이디가 일치하지 않으면 403 상태코드와 home으로 redirect해서 오류를 해결한다
+- if(String(video.owner) !== String(\_id)){
+  return res.status(403).redirect("/");
+  }
+- 위 코드를 postEdit과 deleteVideo에서도 사용하여 오류를 해결한다.(deleteVideo Controller에서 video객체를 찾은 후 video가 존재하는지 확인!)
+- 프론트엔드에서 링크를 숨겼지만, 모든 유저는 믿을 수 없기에 백엔드에서 이러한 에러를 제어해야한다!!!
