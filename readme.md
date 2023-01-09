@@ -1379,8 +1379,57 @@ Stacic File 만들기(/uploads 폴더)
 - 생성한 static()에는 노출시키고 싶은 폴더의 이름을 명시한다. 즉, static(static폴더명)
 - app.use("/uploads", express.static("uplaods"))
 
-static File의 문제점
+  8.6 ~ 8.8 Recap
 
 1. 파일을 서버에 저장하고 있다.
 
-- 서버가 업데이트 되면 기존에 있던 파일들은 삭제된다. 즉, 서버가 재시작되면 기존에 있단 파일들 이 삭제된다.
+- 서버가 업데이트 되면 기존에 있던 파일들은 삭제된다. 즉, 서버가 재시작되면 기존에 있단 파일들 이 삭제된다. -> 파일을 서버에 저장하는것이 아닌 다른 곳에 저장함으로써 문제 해결 가능(서버 배포시 작업) 즉, 서버를 재시작해도 기존 파일은 그대로 존재한다.
+
+2. DB에는 파일을 저장하면 안된다. 즉, DB에는 파일 자체가 아니라 파일의 위치를 저장해야한다.
+
+8.9
+
+sampleVideo 구하기
+
+- Sample-videos.com
+
+Video upload하기
+
+1. upload form에 label과 input 생성
+
+- label(for="video") Video File
+  input(type="file", accept="video/\*", id="video", required, id="video", name="video")
+- input태그의 name속성은 multer middleware 사용을 위해 사용한다.
+- form의 속성에 enctype를 추가해야한다!!!!
+- form(method="POST", enctype="multipart/form-data")
+
+2. videoRouter에 uploadFiles 미들웨어 적용(uploadFiles 미들웨어를 avatarUpload 미들웨어와 videoUplaod 미들웨어로 분할) 즉, videoRouter는 videoUpload 미들웨어를 사용한다.
+
+- export const videoUpload = multer({
+  dest: "uploads/videos/",
+  limits: {
+  files: 50000000,
+  }
+  })
+- limits <- 파일 업로드 크기 제한
+
+3. videoController.js 파일의 postUplaod 컨트롤러 및 Video 모델 수정
+   postUpload
+
+- const file = req.file; <- file 상수 추가
+- video생성 시 fileUrl 생성부분 추가
+- fileUrl: file.path
+  Video.js
+- videoSchema의 구성요소 중 fileUrl 추가
+- fileUrl: {type: String, required: true}
+
+4. watch.pug 파일 수정
+
+- video(src=`/${video.fileUrl}`, controls)
+- watch.pug는 videoController의 watch 컨트롤러가 렌더한다. watch컨트롤러에서는 video모델에서 시청하고자 하는 video의 id를 찾아 video Object를 video상수에 저장한 후 watch페이지 렌더링 시 video Object를 반환한다.
+- video태그의 controls속성을 사용하면 video를 컨트롤 할 수 있는 controller를 사용할 수 있다.
+
+* ES6 Tips!!!
+
+- const {path:fileUrl} = req.file;
+- req.file.path에서 path를 빼낸 후 path를 fileUrl이란 상수의 이름으로 사용하겠다. 즉, fileUrl은 req.file.path가 된다.
