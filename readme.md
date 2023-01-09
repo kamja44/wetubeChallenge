@@ -1297,3 +1297,48 @@ password 변경 방법
 
 - req.session.user.password = user.password
 - 세션의 비밀번호를 DB에 저장되어 있는 비밀번호로 업데이트한다.
+
+  8.6
+  file upload방법(avatar img)
+
+1. template에 label과 input(type="file")작성
+
+-      label(for="avatar") Avatar
+        input(type="file", id="avatar", name="avatar", accept="image/*")
+- label과 input을 같이 작성하는 이유 -> label을 클릭해도 input이 작동한다. 단, label의 for값과 input의 id값이 서로 일치해야한다.
+- image파일만 업로드 할 수 있게 accept속성을 사용한다.
+
+2. multer middleware를 사용하여 파일 업로드 기능을 추가한다.
+
+- npm i multer
+- multer는 multipart가 아닌 form을 처리하지 않기에 form을 multipart form으로 만든다. multipart form으로 만들기 위해서는 form에 enctype 속성을 추가하면 된다. 즉, form이 다르게 encode된다. 즉, file을 백엔드로 보내기 위해 필요한 encoding type이다.
+- ex)form(method="post", enctype="multipart/form-data")
+
+3. multer middleware 생성
+
+- multer(옵션)
+- 옵션 1. dest or storage = 파일을 저장할 위치
+- 옵션 2. fileFilter = 허용되는 파일을 제어하는 함수
+- 옵션 3. limits = 업로드된 데이터의 한계
+- 옵션 4. preservePath = 기본 이름 대신 파일의 전체 경로 유지
+- multerMiddleware는 req,res를 사용하지 않는다. 대신 multer()를 사용한다.
+- middleware.js파일에서 multermiddleware
+- export const uploadFiles = multer({dest: "uploads/"});
+- 사용자가 보낸 파일을 uploads/폴더에 저장하도록 설정한다.
+
+4. 생성한 multer middleware를 controller가 아닌 router에 사용한다. 즉, 파일을 업로드 할 edit profile 라우터에 multer middleware를 사용한다.(get이 아닌 post에(백엔드와 소통해야 하기에 post router에 사용한다.))
+
+- userRouter
+  .route("/edit")
+  .all(protectorMiddleware)
+  .get(getEdit)
+  .post(uploadFiles.single("avatar"), postEdit);
+- uploadFiles 미들웨어(multer middleware)의 속성 <- 여러개의 파일이 올 수 있기에 사용한다. edit-profile에서는 한 개의 파일만 전달받기 때문에 single 속성을 사용한다.
+- multer middle 속성에는 any, array, fields, none, single등이 있다.
+- 즉, multer middleware를 사용한 후 postEdit Controller를 실행한다.
+
+- multerMiddle 동작과정
+
+1. postEdit Controller 동작 전 multer middleware가 실행되어 template의 input에서 오는 avatar 파일을 uploads 폴더에 저장한다.
+2. Controller인 postEdit에 upload한 파일의 정보를 전달한다.
+3. 2.의 과정을 거치면 request에 file정보가 추가된다. 즉, request.file을 사용할 수 있다. 즉, request.file에는 "avatar"정보가 들어있고 request.body에도 "avatar"정보가 들어간다.
