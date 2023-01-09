@@ -1516,3 +1516,27 @@ watch.pug teamplate의 if문 수정
   띄어쓰기 띄어쓰기 +video(video)
   띄어쓰기 else
   띄어쓰기 띄어쓰기 li Sorry Nothing Found.
+
+  8.13
+  8.11 ~ 8.12에서 작성한 코드 다듬기
+
+1. userControㅣㅣer.js의 see Controller에서 video상수 삭제 후 user상수에 populate()사용
+
+- const user = await User.findById(id).populate("videos");
+- populate("videos")를 사용하면 user.videos에 Video 객체가 저장된다. user의 videos에는 video ID가 저장되어 있는데 mongoose가 video ID에 해당하는 Video 객체를 반환한다. 즉, user의 videos에는 Video 객체가 저장된다.
+
+2. Video 모델은 1개의 owner를 가질 수 있고 User 모델은 여러개의 videos를 가질 수 있다. 즉, User 모델에 videos 속성을 생성한다.
+
+- User.js 파일의 userSchema의 videos속성을 추가한다.
+- videos:[{type:mongoose.Schema.Types.ObjectId, ref="Video"}]
+
+3. 업로드 될 영상의 id를 user model에도 저장한다.
+
+- videoController에서 Video를 create할 때 newVideo란 상수에다 담는다.
+- const newVideo = await Video.create({}) 즉, 새로 만드는 Video를 return한다. <- 우리가 가진 id로 사용자를 검색할 수 있고, newVideo의 id를 User 모델의 videos array에 추가할 수 있다.
+
+4. videoController.js파일의 postUpload Controller에서 Video를 생성한 후 user모델에서 \_id로 user를 찾은 후 user모델의 Videos 배열에 push 한 후 저장한다.
+
+- const user = await User.findById(\_id);
+- user.videos.push(newVideo.\_id);
+- user.save();
