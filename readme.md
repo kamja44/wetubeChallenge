@@ -1433,3 +1433,60 @@ Video upload하기
 
 - const {path:fileUrl} = req.file;
 - req.file.path에서 path를 빼낸 후 path를 fileUrl이란 상수의 이름으로 사용하겠다. 즉, fileUrl은 req.file.path가 된다.
+
+  8.10 ~ 8.11
+  8.10
+  Video model에는 누가 video를 업로드했는지 확인하기 위해 owner 항목 추가
+  User model에는 사용자가 가지고 있는 video를 확인하기 위해 video list 추가
+  즉, video 모델은 owner 하나만 가져야 하고, user 모델은 여러 개의 video를 가질수 있게 만든 후 user 모델과 video 모델을 연결한다.
+
+base.pug의 `/users/${loggedInUser._id}`(나의 프로필)로 접속하기위해 라우터 및 컨트롤러 생성
+
+userRouter.get("/:id", see);
+
+- seeController은 누구나 접근 가능해야 하기에 id를 세션이 아닌 params에서 가져온다.
+
+  8.11
+  user모델과 video 모델 연결
+
+1. video 모델에 owner 속성 추가
+
+- type:ObjectId는 JS에서 지원하지 않기에 mongoose의 ObjectID type을 이용한다.
+- type; mongoose.Schema.Types.ObjectId
+- owner의 ref 속성은 어떤 model과 연결할지 설정할 때 사용하는 속성이다. 즉, mongoose에게 owner 속성이 어떤 model(여기서는 User)의 objectId라고 명시한다. 즉, 여기서는 User모델과 Video모델을 연결하기에 ref="User"라고 명시한다.(User모델은 User스키마를 "User"라는 이름으로 export한다. 즉, export한 모델 이름을 적어준다.)
+
+2. postUpload 컨트롤러에서 render할 때 user 정보 보내기
+
+- const {user} = req.session;
+- Video 모델의 정보를 create할 때 owner: \_id 추가(owner속성은 required)
+
+3. 해당 영상의 주인이 아니라면 edit 링크와, delete 링크 숨기기
+   watch.pug 파일
+
+- if(String(loggedInUser.\_id) === String(video.owner))
+  띄어쓰기 a(href=`${video.id}/edit`) Edit Video &rarr;
+  띄어쓰기 br
+  띄어쓰기 a(href=`${video.id}/delete`) Delete Video &rarr;
+- String(매개변수) <- 매개변수의 값을 문자열로 변환한다.(loggedInUser.\_id와 video.owner의 형식이 서로 다르기 때문에 문자열로 변환 후 비교한다.)
+
+4. 해당 영상을 소유한 user 찾기
+   videoController.js 파일에서 User 모델을 import한다.
+
+- improt User from "../model/User.js"
+- const owner = await User.findById(video.owner);
+
+5. watch 컨트롤러에서 동작이 끝낸후 렌더할 때 찾은 user(owner) 같이 보내기
+
+- if(video){
+  return res.render("watch", {pageTitle: video.title, video, owner})
+  }
+
+6. watch.pug 파일에 동영상 소유자 명시
+
+- div
+- 들여쓰기 small Uploaded by #{owner.name}
+
+* videoController.ks 파일의 postUpload Controller
+
+- req.session.user는 현재 로그인된 사용자이다.
+- try문에서 Video를 생성할 때 owner를 만들어주는데 owner의 속성(\_id)는 현재 로그인된 사용자의 id(req.session.user.\_id)이다. 즉, video의 owner로 현재 로그인 중인 유저의 id를 사용한다. 즉, 로그인한 후 video를 업로드하면 업로드한 사람의 id가 video의 owner가 된다.

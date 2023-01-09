@@ -14,11 +14,11 @@ html(lang = "ko")
                         li  
                             a(href="/videos/upload") Upload Video
                         li
+                            a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
+                        li
                             a(href="/users/edit") Edit Profile
                         li
                             a(href="/users/logout") Log Out
-                        li
-                            a(href="/my-profile") #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
                     else
                         li
                             a(href="/join") Join
