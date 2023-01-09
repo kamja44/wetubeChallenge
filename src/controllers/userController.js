@@ -188,8 +188,6 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 export const getChangePassword = (req, res) => {
-  console.log("=========================", req);
-  console.log("#########################", req.session);
   if (req.session.user.socialOnly === true) {
     return res.redirect("/");
   }

@@ -1,4 +1,8 @@
-git repository 설정 방법
+Express request, response Docs
+
+- https://expressjs.com/en/4x/api.html#req
+
+  git repository 설정 방법
 
 1. git init
 
@@ -1246,3 +1250,7 @@ MongoDB 삭제 후 스키마 재시작 방법
 1. mongo
 2. use dbName
 3. db.dropDatabase();
+
+Session은 express-session을 import하여 사용할 수 있다.
+
+- server.js파일의 app.use(session)을 통해 express의 request 메소드에 session을 추가한다.
