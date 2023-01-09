@@ -1254,3 +1254,46 @@ MongoDB 삭제 후 스키마 재시작 방법
 Session은 express-session을 import하여 사용할 수 있다.
 
 - server.js파일의 app.use(session)을 통해 express의 request 메소드에 session을 추가한다.
+
+  8.5
+  DB 완전히 삭제 방법
+
+1. use 사용할DB명
+2. db.sessions.remove({})
+
+- session을 DB에 저장했기에 session도 삭제
+
+3. db.users.remove({})
+
+password 변경 방법
+
+1. 현재 password가 정확히 일치하는지 확인
+
+- const ok = await bcrypt.compare(oldPassword, password);
+  if (!ok) {
+  return res.status(400).render("users/change-password", {
+  pageTitle: "Change Password",
+  errorMessage: "The current password is incorrect",
+  });
+  }
+
+2. 새로운 password와 변경할 password가 일치하는지 확인
+
+- if (newPassword !== newPasswordConfirmation) {
+  return res.status(400).render("users/change-password", {
+  pageTitle: "Change Password",
+  errorMessage: "The password does not match the confirmation",
+  });
+  }
+
+3. user 모델에서 현재 user를 찾고 user정보 업데이트
+
+- user 정보(\_id정보)는 req.session.user에서 찾을 수 있다.
+- const user await User.findById({\_id});
+  user.password = newPassword;
+  await user.save();
+
+4. 변경된 session정보를 update한다.
+
+- req.session.user.password = user.password
+- 세션의 비밀번호를 DB에 저장되어 있는 비밀번호로 업데이트한다.
