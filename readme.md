@@ -1695,3 +1695,38 @@ webpack에서 scss 사용법
   use:["style-loader","css-loader","sass-loader"]
   }
 - 여기서 use의 scss 로더의 순서는 역순으로 명시한다. 즉, 제일 마지막에 사용하는 style-loader, 그 다음 사용하는 css-loader, 가장 처음 사용하는 sass-loader를 명시한다. <- webpack은 코드를 뒤에서 부터 참조한다 즉, use는 ["style-loader", "css-loader","sass-loader"]순으로 작성되었지만 webpack은 sass-loader, css-loader, style-loader 순으로 받아들인다.
+
+  9.5
+  현재의 scss는 javascript 코드와 같이 동작한다. MiniCssExtractPlugin을 사용하여 scss영역과 javascript 영역을 분리한다.
+
+MiniCssExtractPlugin 사용법
+
+1. MiniCssExtractPlugin 설치
+
+- npm i --save-dev mini-css-extract-plugin
+
+2. webpack.config.js 파일에 해당 코드 작성
+
+- const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+- module.exports에 plugins 속성 추가
+- pluigins: [new MiniCssExtractPlugin()],
+- style-loader를 사용하는 대신 MiniCssExtractPlugin의 loader를 사용한다. 즉, MiniCssExtractPlugin loader는 css를 추출하여 별도의 파일로 만든다.
+- use: [MiniCssExtractPlugin.loader, "css-loader","sass-loader"]
+
+3. assets에서 분리된 css 파일을 확인할 수 있다.
+
+- 생성된 css파일이 js폴더안에 있기에 output을 수정한다.
+- output의 path를 path: path.resolve(\_\_dirname, "assets") 로 수정, filename을 "main.js"에서 "/js/main.js"로 수정
+- plugins에서 MiniCssExtractPlugin 클래스를 생성할 때 매개변수로 {filename: "css/styles.css"}를 추가한다.
+
+assets 폴더는 static file로 설정되었으니
+js폴더와 css 폴더는 공개되어있다. 즉, template에서 css를 import할 수 있다.
+
+base.pug에서 styles.css import
+
+- link(rel="stylesheet", href="/static/css/styles.css")
+
+---
+
+src/client 폴더는 webpack에 의해서만 로딩된다.
+사용자, pug, browser는 assets폴더만 사용한다!!!!
