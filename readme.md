@@ -1730,3 +1730,41 @@ base.pug에서 styles.css import
 
 src/client 폴더는 webpack에 의해서만 로딩된다.
 사용자, pug, browser는 assets폴더만 사용한다!!!!
+
+9.6
+프론트엔드 코드(scss or javascript)변경 시 자동으로 webpack 재실행(자동으로 npm run assets 실행)
+
+- webpack.config.js 파일의 module.exporst에 watch속성을 추가한다.
+- watch: true
+
+즉, 이제 node server를 다루는 console과 webpack을 다루는 console 2개를 사용해야 한다.
+만일 scss에서 무언가를 변경할 때 "이건 동작하지 않는다" or "CSS가 변경되지 않는다"는 코멘트인 오류가 발생한다면 webpack을 실행하지 않아서 발생하는 오류이다.(npm run assets)
+
+webpack.config.js 파일의 module.exports의 output 속성에 clean 속성을 추가하면 output foler를 build 하기 전 폴더를 초기화 할 수 있다.
+
+webpack.config.js를 저장할 때 마다 nodemon이 재시작되는 버그 수정(즉, 프론트엔트 코드를 수정하면 백엔드가 재시작되는 오류 수정) 즉, nodemon에게 몇가지 파일이나 폴더들을 무시하는 방법 명시한다.
+
+1. nodemon.json 파일 생성
+
+- 파일은 package.json와 같은 경로에 생성한다.
+
+2. nodemon.json 파일 설정
+
+- 아래와 같은 코드를 nodemon.json 파일에 설정한다.
+- {
+  "ignore": [
+  "webpack.config.js",
+  "src/client",
+  "assets/*"
+  ],
+  "exec":"babel-node src/init.js"
+  }
+- webpack 설정 파일, webpack이 참조하는(프론트엔드 코드가 작성되는) src/client폴더와, webpack이 코드 변환 후 저장하는 assets 폴더를 제외한다.
+- exec 속성을 설정하고 package.json의 scripts의 dev 속성을 nodemon만 남겨둔다.
+- package.json) "dev":"nodemon"
+- nodemon.json) "exec":"babel-node src/init.js"
+
+- npm run dev로 dev scripts를 실행하면, nodemon이 nodemon.json파일을 호출하여 exec속성을 실행한다.
+
+node server 시작 명령어를 npm run dev:server로 변경
+webpack 시작 명령어를 npm run dev:assets로 변경
