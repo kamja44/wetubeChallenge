@@ -1653,3 +1653,45 @@ path.resolve()
 base.pug에 script 태그를 이용하여 assets폴더를 template과 연결시킨다.
 
 - script(src="/static/js/main.js")
+
+  9.4
+  SCSS
+
+- scss는 $기호를 사용하여 변수를 설정할 수 있다.
+- $red: red;
+- scss 변수를 불러오기 위해선 import 해야 한다.
+- @import "./variables";
+- scss 파일을 main.js로 import 한다.
+
+webpack에서 scss 사용법
+
+- webpack.config.js파일의 module안이 rules 속성에 scss loader를 추가한다. scss loader는 3가지 loader를 사용한다.
+
+1. scss를 일반 css로 변형시키는 laoder
+2. font를 사용할 때 사용하는 loader
+3. 변환한 css를 웹사이트에 적용시킬 loader
+
+- sass loader 다운로드
+
+1. sass-loader 다운로드
+
+- sass-loader는 scss 파일을 가져다가 css 파일로 변환한다.
+- npm i sass-loader sass webpack --save-dev
+
+2. css-loader 다운로드
+
+- @import와 ur()을 해석해주는 loader이다.
+- npm i --save-dev css-loader
+
+3. style-loader 다운로드
+
+- css를 DOM에 주입하는 loader이다.
+- npm i --save-dev style-loader
+
+- webpack.config.js파일에 scss 로더 적용순서
+- rules에 이 코드를 추가한다.
+- {
+  test: /\.scss$/,
+  use:["style-loader","css-loader","sass-loader"]
+  }
+- 여기서 use의 scss 로더의 순서는 역순으로 명시한다. 즉, 제일 마지막에 사용하는 style-loader, 그 다음 사용하는 css-loader, 가장 처음 사용하는 sass-loader를 명시한다. <- webpack은 코드를 뒤에서 부터 참조한다 즉, use는 ["style-loader", "css-loader","sass-loader"]순으로 작성되었지만 webpack은 sass-loader, css-loader, style-loader 순으로 받아들인다.
