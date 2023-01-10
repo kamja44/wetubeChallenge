@@ -1765,6 +1765,16 @@ webpack.config.js를 저장할 때 마다 nodemon이 재시작되는 버그 수�
 - nodemon.json) "exec":"babel-node src/init.js"
 
 - npm run dev로 dev scripts를 실행하면, nodemon이 nodemon.json파일을 호출하여 exec속성을 실행한다.
+- npm run assets로 assets를 실행하면, webpack이 webpack.config.js파일을 호출하여 실행한다.
 
 node server 시작 명령어를 npm run dev:server로 변경
 webpack 시작 명령어를 npm run dev:assets로 변경
+
+9.7
+Webpack Recap(Rules, Tests, Loaders)
+
+1. webpack.config.js파일의 entry의 경로에 있는 main.js을 변형시킨다.(main.js 파일은 js와 scss를 모두 가지고 있다.)
+2. webpack이 js코드를 발견하면 babel-loader을 이용하여 변환한다.
+3. webpack이 scss코드를 발견하면 우선적으로 sass-loader에 의해 처리된 후 css-loader, MiniCssExtraPlugin.loader을 이용하여 CSS파일과 JS 파일을 구분시킨다.(MiniCssExtraPlugin.loader는 css로 compile된 코드를 css/styles.css에 입력해준다.(plugins에서 설정한다.))
+4. 변환된 파일은 output의 path로 이동하게 된다. 즉, js 파일은 output의 filename과 path에 의하여 /assets/js/main.js에 기록되며 css파일은 path에 의하여 /assets/css/styles.css에 기록된다.
+5. server.js파일에서 assets폴더를 static file로 설정했기에 assets 폴더는 공개되어있다. 즉, teamplate에서 /static url(/static)을 이용하여 접근할 수 있다.
