@@ -1561,3 +1561,95 @@ watch.pug teamplate의 if문 수정
   }
 - 위 코드를 postEdit과 deleteVideo에서도 사용하여 오류를 해결한다.(deleteVideo Controller에서 video객체를 찾은 후 video가 존재하는지 확인!)
 - 프론트엔드에서 링크를 숨겼지만, 모든 유저는 믿을 수 없기에 백엔드에서 이러한 에러를 제어해야한다!!!
+
+  9.0
+  Webpack
+
+- 프론트엔드에서 자바스크립트 코드를 작성하면 모든 브라우저에서 인식 가능한 자바스크립트 코드로 변환한다. 즉, 지원하지 않는 기능을 작성하면 웹팩이 구형코드로 변환한다(babel과 같은기능 babel = 백엔드, webpack = 프론트엔드)
+- webpack는 대부분의 에디터(툴)에 기본적으로 적용되어 있다.
+- webpack과 비슷한 기능을 하는 gulp가 있다. gulp는 webpack보다 쉽지만, webpack만큼 유용하지 않다.
+
+  9.1
+  Webpack 사용법
+
+1. webpack과 webpack-cli 설치(devDependencies에 저장하기 위해 -D 옵션 사용)
+
+- npm i webpack webpack-cli -D
+
+2 .webpack에게 소스파일들이 있는 위치와 webpack의 결과물을 보낼 폴더를 명시한다.
+
+- webpack을 설정하기 위해서는 webpack.config.js라는 파일을 생성해야한다.(폴더의 가장 바깥, package.json과 같은 위치)
+- webpack.config.js 파일은 구형 js만 이해할 수 있다.(export default 대신 module.export 사용)
+
+  2.1 webpack configuration의 주의점(webpack.config.js 파일의 주의점)
+  2.1.1. entry
+
+- entry는 우리가 처리하고자 하는 파일들이다. 즉, 사용자가 작성한 프론트엔드 javascript 코드이다.
+- entry를 처리하기 위해 src폴더에 client폴더를 생성한다.(client폴더는 사용자가 작성할 프론트엔드 js 코드임을 알 수 있다.)
+- 생성한 client폴더에 js폴더를 생성한 후 js폴더에 main.js 파일을 생성한다. 즉, main.js파일이 사용자가 사용하고 싶은(처리하고 싶은) entry 파일이다.
+- 생성한 entry파일의 경로를 webpack.config.js 파일의 module.exports의 entry 속성에 작성한다.
+- entry의 경로를 작성했으면 webpack.config.js파일의 output을 작성한다.(output의 속성에는 filename과 path(파일을 저장할 경로)가 있다.)
+- 작성한 webpack(webpack.config.js)을 실행시키기 위해 package.json의 scripts에서 assets라는 스크립트를 생성한다.
+- "assets": "webpack --config webpack.config.js"
+- npm run assets 명렁어로 webpack를 실행시킬 수있다.
+- npm run assets 명령어로 webpack 실행 시 ERROR발생!!! <- webpack.config.js파일의 module.export의 output의 path값이 절대경로가 아니라서 에러발생
+
+  9.2
+  webpack 에러 해결
+
+path.resolve()
+
+- 매개변수들을 모아서 경로로 만든다.
+- path를 사용하기 위해서는 import해야한다.(import require 또는 require("path"))
+- const path = require("path")
+- console.log(path.resolve(\_\_dirname, "assets","js"))
+- 위의 경로를 console에 찍어보면 path가 원하는 절대경로가 출력된다.
+  \_\_dirname
+- 파일까지의 전체 경로를 의미한다.
+- path의 경로를 절대경로로 변경하면 에러가 해결된다.
+
+- 즉, webpack은 entry 경로에 있는 코드를 output의 path의 경로로 출력하는데 entry의 코드를 축약 후 output의 path경로로 출력한다.(구형 코드로의 변환은 webpack의 babel-loader를 이용해야한다.)
+
+  9.3
+  babel-loader를 사용하여 구형코드로 변환
+
+1. babel-loader를 설치한다.
+
+- npm i -D babel-loader
+
+2. webpack.config.js 파일의 module.exports에 module 속성을 추가한다.
+
+- module속성을 추가한 후 rules 속성을 추가한 후 다음과 같이 작성한다.
+- module:{
+  rules:[
+  {
+  test: /\.js$/,
+  use:{
+  loader:"babel-loader",
+  options:{
+  presets: [["@babel/preset-env", { targets: "defaults" }]],
+  },
+  },
+  },
+  ],
+  }
+- 즉, javascript 코드를 babel-loader라는 loader로 가공한다.
+- webpack은 node_modules에서 babel-loader를 찾고 사용자는 몇가지 옵션(use속성)들을 전달한다.
+
+3. npm run assets 명령어 사용시 발생하는 mode 경고 해결
+
+- webpack.config.js파일의 module.exports에 mode 속성을 추가하면 해결할 수 있다.
+- mode속성의 값은 development와 production이 있다.
+- development는 개발모드이고 production은 배포할 때 사용한다. mode속성의 default value는 production인데 production으로 설정할 시 webpack 코드의 결과물이 압축되서 반환된다. 즉, 배포시에 mode속성을 production으로 설정하고 개발시에는 development로 설정한다.
+
+  9.4
+  즉, 사용자는 src/client/js 폴더 안에 코드를 작성해야한다.
+  또한, assets/js/main.js router를 만들어야한다. <- assets 폴더를 static file로 설정하여 공개한다.
+
+- app.use("/assets", express.static("assets"))
+- static 파일을 설정할 떄 첫번쨰 매개변수는 url이고 두 번째 매개변수 express.static("assets")의 assets는 폴더의 이름이다. 즉, 폴더 이름은 동일해야 하며 url은 원하는 url로 설정할 수 있다.
+- webpack을 적용할 파일을 수정하면, webpack을 다시 실행해야 한다.
+
+base.pug에 script 태그를 이용하여 assets폴더를 template과 연결시킨다.
+
+- script(src="/static/js/main.js")
