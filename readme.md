@@ -1858,3 +1858,25 @@ src/views/partials/social-login.pug
 - pug에서 class 여러개 적용하기
 - a(href=`/users/github/start`).social**btn.social**btn--github
 - 즉, .class이름.class이름 처럼 class뒤에 class를 선언한다.
+
+  11.0
+  webpack의 entry point 분할하기(2개의 entry point 사용하기)
+
+1. src/client/js 폴더에 videoPlayer.js 파일 생성
+2. webpack.config.js 파일의 module.exports의 entry를 객체로 변경한다.
+
+- entry:{
+  main: "./src/client/js/main.js",
+  videoPlayer: "./src/client/js/videoPlayer.js"
+  }
+
+3. webpack.config.js 파일의 module.exports의 output의 filename이 엔트리 포인트가 2개이기에 기존코드를 이용하면 main.js파일이 2개가 생성된다. 이를 webpack의 변수를 사용하여 2개의 파일이 생성되도록 변경한다.
+
+- output:{
+  filename: "js/[name].js"
+  }
+- 위 코드로 작성하면 entrypoint 객체의 이름을 가져간다. 즉, main.js 파일과 videoPlayer.js 파일 2개가 생성된다.
+
+4. webpack이 생성한 videoPlayer.js파일을 필요한 비디오 페이지에 로드한다.(view/watch.pug)
+
+4-1. base.pug에서 assets/js/main.js를 참조하는 scripts 코드를 삭제하였는데, main.js에서 변환하던 SCSS코드는 이미 assets/css/styles.css에 적용했기 때문에 base.pug의 link에서 styles.css만 불러와도 css가 적용된다.
