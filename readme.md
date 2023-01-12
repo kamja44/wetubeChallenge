@@ -1916,3 +1916,10 @@ Time Formating 순서(videoPlayer.js 파일의 formatTime함수)
 3. substr 함수를 이용하여 필요한 부분을 잘라낸다.
 
 - new Date().toISOString(29\*1000).substring(11,8);
+
+  11.6
+  Timeline
+
+Video의 timeline설정을 위해 input 태그 추가
+
+- input의 최솟값은 0으로 설정, 최댓값은 loadedmetadata 이벤트 리스너의 handleLoadedMetadata 콜백함수에서 설정한다.
