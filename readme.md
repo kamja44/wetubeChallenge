@@ -1778,3 +1778,40 @@ Webpack Recap(Rules, Tests, Loaders)
 3. webpack이 scss코드를 발견하면 우선적으로 sass-loader에 의해 처리된 후 css-loader, MiniCssExtraPlugin.loader을 이용하여 CSS파일과 JS 파일을 구분시킨다.(MiniCssExtraPlugin.loader는 css로 compile된 코드를 css/styles.css에 입력해준다.(plugins에서 설정한다.))
 4. 변환된 파일은 output의 path로 이동하게 된다. 즉, js 파일은 output의 filename과 path에 의하여 /assets/js/main.js에 기록되며 css파일은 path에 의하여 /assets/css/styles.css에 기록된다.
 5. server.js파일에서 assets폴더를 static file로 설정했기에 assets 폴더는 공개되어있다. 즉, teamplate에서 /static url(/static)을 이용하여 접근할 수 있다.
+
+   10.0
+   CSS Seting
+
+scss 폴더위치 src/client/scss로 변경
+
+- src/client/js/main.js 파일의 scss폴더 주소 변경
+
+remove MVP CSS
+Font Awsome URL
+
+- https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css
+
+src/client/scss/components 폴더
+
+- header와 footers와 같은 공통된 CSS
+- partials이나 mixin 파일을 만들 때 scss에도 이름의 component 파일 만들기
+
+src/client/scss/screens 폴더
+
+- home과 search와 같은 개별 파일 CSS
+- home, join, login, search같은 teamplate을 만들었다면 screen 폴더에 같은 이름의 screen 파일을 만든다
+
+src/client/scss/config 폴더
+
+- 모든 설정 파일
+- \_variables.scss
+- \_reset.scss
+
+reset.css url
+
+- https://meyerweb.com/eric/tools/css/reset
+
+src/views/partials 폴더에 header.pug생성
+
+10.1 ~ 10.3
+CSS part

@@ -1,0 +1,24 @@
+header
+    a(href="/")
+        i.fab.fa-youtube
+    h1=pageTitle
+    nav
+        ul
+
+            if loggedIn
+                li  
+                    a(href="/videos/upload") Upload Video
+                li
+                    a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
+                li
+                    a(href="/users/edit") Edit Profile
+                li
+                    a(href="/users/logout") Log Out
+            else
+                li
+                    a(href="/join") Join
+                li
+                    a(href="/login") Login
+            li
+                a(href="/search") Search
+        
