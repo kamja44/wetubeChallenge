@@ -1,24 +1,27 @@
 header
-    a(href="/")
+    a(href="/").header__logo
         i.fab.fa-youtube
-    h1=pageTitle
     nav
         ul
-
+            li
+                a(href="/search")
+                    i.fas.fa-search
             if loggedIn
                 li  
                     a(href="/videos/upload") Upload Video
                 li
-                    a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
-                li
                     a(href="/users/edit") Edit Profile
                 li
                     a(href="/users/logout") Log Out
+                li
+                    a(href=`/users/${loggedInUser._id}`)
+                        if loggedInUser.avatarUrl === undefined
+                            span #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
+                        else
+                            img(src="/"+loggedInUser.avatarUrl).header__avatar
             else
                 li
-                    a(href="/join") Join
-                li
                     a(href="/login") Login
-            li
-                a(href="/search") Search
+                li
+                    a(href="/join").header__btn Join
         

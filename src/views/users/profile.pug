@@ -2,7 +2,14 @@ extends ../base.pug
 include ../mixins/video
 
 block content
-    each video in user.videos
-        +video(video)
-    else
-        li Sorry Nothing Found.
+    div.profile__data
+        if loggedInUser.socialOnly
+            img(src=user.avatarUrl).avatar
+        else
+            if user.avatarUrl !== undefined
+                img(src="/"+user.avatarUrl).avatar
+        div.video-grid
+            each video in user.videos
+                +video(video)
+            else
+                span.empty__message No videos found

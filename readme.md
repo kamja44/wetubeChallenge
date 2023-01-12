@@ -1815,3 +1815,46 @@ src/views/partials 폴더에 header.pug생성
 
 10.1 ~ 10.3
 CSS part
+
+src/client/scss/forms.scss
+
+all: unset
+
+- 기본 스타일 초기화
+- input{all:unset;} <- input태그의 기본 스타일 초기화
+
+::placeholder
+
+- input의 plachoder속성을 선택하여 스타일한다.
+
+input[type="submit"]
+
+- type이 submit인 input을 선택한다.
+
+src/client/scss/header.scss
+
+text-transform
+
+- 태그의 내용을 대문자 or 소문자로 바꾸는 속성이다. 한글에서는 의미없다.
+
+src/client/scss/components/shared.scss
+
+grid-template-columns
+
+- display:grid인 태그에만 사용가능, 열방향을 4열로 나누고, minmax를 이용하여 최대 최소 크기를 지정한다. 1fr은 늘어날 수 있는 만큼 늘어난다. 즉, 전체 크기가 100이라면 1fr로 4등분하면 하나의 열 당 25만큼씩 할당된다.
+
+text-decoration
+
+- 선으로 텍스트를 꾸민다.
+- text-decoration : underline으로 설정하면 속성에 밑줄이 생긴다.
+
+src/client/scss/components/social-login
+background-color : transparents
+
+- 배경의 색을 지정하지 않는다.
+
+src/views/partials/social-login.pug
+
+- pug에서 class 여러개 적용하기
+- a(href=`/users/github/start`).social**btn.social**btn--github
+- 즉, .class이름.class이름 처럼 class뒤에 class를 선언한다.
