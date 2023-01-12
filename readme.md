@@ -1880,3 +1880,39 @@ src/views/partials/social-login.pug
 4. webpack이 생성한 videoPlayer.js파일을 필요한 비디오 페이지에 로드한다.(view/watch.pug)
 
 4-1. base.pug에서 assets/js/main.js를 참조하는 scripts 코드를 삭제하였는데, main.js에서 변환하던 SCSS코드는 이미 assets/css/styles.css에 적용했기 때문에 base.pug의 link에서 styles.css만 불러와도 css가 적용된다.
+
+11.4
+loadedmetadata
+
+- Video 데이터를 제외한 모든 데이터 즉, 비디오에서 움직이는 이미지들을 제외한 모든 데이터를 의미한다.
+- videoPlayer.js 파일의 video.addEventListener("loadedmetadata", () => {
+  totalTime.innerText = video.duration
+  }) <- video의 총 길이를 totalTime의 text에 넣는다.
+
+timeupdate
+
+- 비디오가 업데이트 될때마다(즉, 비디오의 현재 시간이 변한다면) 콜백 이벤트가 실행된다.
+- video.addEventListener("timeupdate", handleTimeUpdate);
+
+- 11.5
+  !!! substr 함수는 JS 권장함수가 아니니 substring 함수를 이용한다.
+  substring(시작인덱스, 종료인덱스)
+  Time Formatting
+- new Date(29\*1000).toISOString();을 사용하면
+- '1970-01-01T00:00:29.000Z'이 반환된다. 즉, 출력값에서 00:00:29만 가져오면 시간을 Formatting할 수 있다. 시간은 11번째 자리부터 시작하고 29초까지 8자리를 차지하니 substr(11,8)을 이용하면 00:00:29를 가져올 수 있다.
+- new Date(29\*1000).toISOString().substring(11,19)
+- "00:00:29"
+
+Time Formating 순서(videoPlayer.js 파일의 formatTime함수)
+
+1. javascript로 제로타임인 date를 만들어준다.
+
+- new Date().toISOString();
+
+2. 필요한 시간을 추가한다.
+
+- new Date().toISOString(29\*1000);
+
+3. substr 함수를 이용하여 필요한 부분을 잘라낸다.
+
+- new Date().toISOString(29\*1000).substring(11,8);
