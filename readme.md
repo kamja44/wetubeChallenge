@@ -1953,3 +1953,43 @@ setTimeout의 함수 동작 중 setTimeout 취소하기
 html className javascript로 변경하기
 
 - playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
+
+# 12.0 ~ 12.2
+
+API VIEWS
+
+- template을 렌더링 하지 않는 views
+  API
+- 백엔드가 템플릿을 렌더링하지 않을 때 프론트엔드와 백엔드가 서로 소통하는 방법
+
+API VIEWS 사용법
+
+1. api router 생성(routers/apiRouter.js)
+2. router가 사용할 controller 생성
+3. router에 post 함수 사용
+4. 클라이언트(프론트엔드)에서(프론트엔드의 JS파일(src/client/js/videoPlayer.js)) 백엔드(api router의 url)로 URL요청(fetch)
+
+- video시청이 끝났을 때 발생하는 이벤트를 추가하고 콜백 함수로 백엔드로 URL을 요청한다.
+
+HTML element에 커스텀 데이터(백엔드 데이터) 저장 방법(즉, pug에서 받은 백엔드 데이터를 저장하여 JS파일로 넘길 수 있다.)
+
+- dataAttribute 사용
+- dataAttribute는 data-로 시작하는 어트리뷰트를 의미한다.
+- dataAttribute Docs
+- https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes
+- ex) src/views/watch.pug의 div#videoController에 dataAttribute 적용
+- div#videoController(data-id=video.\_id)
+- pug에서 속성을 추가할 때 ()를 사용한다.
+- dataAttribute는 js에서 해당ELEMENT.dataset으로 확인할 수 있다.
+
+fetch함수로 post요청 보내기
+
+- 기존 사용하던 fetch함수는 모두 get요청이였다.
+- src/client/js/videoPlayer.js의 handleEnded 이벤트
+- fetch(`/api/videos/${id}/view`, {
+  method: "POST"
+  });
+
+페이지를 렌더하지 않고 연결을 종료할 경우 sendStatus를 사용한다.
+
+- return res.sendStatus(200)
