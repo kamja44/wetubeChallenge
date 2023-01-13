@@ -1923,3 +1923,27 @@ Time Formating 순서(videoPlayer.js 파일의 formatTime함수)
 Video의 timeline설정을 위해 input 태그 추가
 
 - input의 최솟값은 0으로 설정, 최댓값은 loadedmetadata 이벤트 리스너의 handleLoadedMetadata 콜백함수에서 설정한다.
+
+  11.8
+
+element에 class추가
+
+- videoControls.classList.add("showing")
+- videoControls Element에 showing class 추가
+
+element에 class 제거
+
+- videoControls.classList.remove("showing")
+- videoControls Element에 showing class 제거
+
+일정 시간 이후 Event 실행
+
+- setTimeout(function(), time)
+
+setTimeout의 함수 동작 중 setTimeout 취소하기
+
+- setTimeout 함수를 변수에 저장 후 반환하면 id값(숫자)가 반환된다. 반환된 id값을 clearTimeout 함수에 사용하면 setTimeout 함수를 취소할 수 있다.
+- const id = setTimeout(() => {
+  videoControls.classList.remove("showing");
+  }, 3000);
+  clearTimeout(id)

@@ -3,7 +3,7 @@ extends base.pug
 block content 
     div#videoController
         video(src=`/${video.fileUrl}`).video__size
-        div    
+        div#videoControls
             button#play Play
             button#mute Mute 
             input(type="range",step="0.1", min="0", max="1", vaule="0.5")#volume
