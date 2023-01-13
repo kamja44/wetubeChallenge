@@ -1947,3 +1947,9 @@ setTimeout의 함수 동작 중 setTimeout 취소하기
   videoControls.classList.remove("showing");
   }, 3000);
   clearTimeout(id)
+
+  11.11
+
+html className javascript로 변경하기
+
+- playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
