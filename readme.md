@@ -1993,3 +1993,23 @@ fetch함수로 post요청 보내기
 페이지를 렌더하지 않고 연결을 종료할 경우 sendStatus를 사용한다.
 
 - return res.sendStatus(200)
+
+#13.0
+Recoder
+
+1. src/client/js에 recoder.js 파일 만들기
+2. webppack의 module.exports의 entry에 recoder: "./src/client/js/recoder.js" 추가
+3. upload.pug에 recoder.js 추가
+
+사용자에게서 카메라와 오디오의 권한 얻기
+
+- MediaDevices.getUserMedia()
+
+1. navigator.mediaDevices.getUserMedia(constraints) 함수 사용(constraints argument는 이러한 객체를 반환한다.)
+   1-1{
+   audio: true, video: true
+   }
+2. 권한을 얻기까지 시간이 걸리기에 async await 사용(navigator.mediaDevices.getUserMedia함수를 사용할 때 async await를 사용하기 위해선 regeneratorRuntime을 설치해야 한다.)
+   2-1
+   npm i regenerator-runtime
+   src/client/js/main.js 파일 상단에 import후 base.pug에 main.js 추가
