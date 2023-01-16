@@ -2013,3 +2013,6 @@ Recoder
    2-1
    npm i regenerator-runtime
    src/client/js/main.js 파일 상단에 import후 base.pug에 main.js 추가
+
+3. upload.pug에서 video생성 후 recoder.js파일에서 생성한 video 태그 가져오기
+   3-1 stream 상수를 video.srcObject에 넣고 있는데 srcObject는 video가 가질 수 있는 무언가를 의미한다. 즉, srcObject는 MediaStream, MediaSourece, Blob, File을 실행할 때 video에 주는 무언가를 의미한다.
