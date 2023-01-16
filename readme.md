@@ -2107,3 +2107,49 @@ WebAssembly
 - 개방형 표준
 - 웹사이트가 프론트엔드에서 매우 빠른 코딩을 실행할 수 있게 지원한다. 즉, 실행 비용이 큰 프로그램들을 브라우저에서 실행할 수 있다.
 - 즉, WebAssembly를 이용하여 FFmpeg를 실행하도록 한다.
+
+# 14.1
+
+FFmpeg 사용법
+
+1. import
+
+- import {createFFmpeg, fetchFile} = from "@ffmpeg/ffmpeg"
+
+2. FFmpeg instance 생성
+
+- const ffmpeg = createFFmpeg({log: true});
+- console을 확인하기 위해 log:true 옵션을 사용한다.
+
+3. ffmpeg load
+
+- ffmpeg.load()
+- ffmpeg를 load할 때는 await을 사용해야 하는데 이는 사용자가 소프트웨어를 사용할 것이기 때문이다. 즉, 사용자는 javascript가 아닌 코드를 무언가를 설치해서 사용한다.
+
+4. ffmpeg의 가상의 세계에 파일 생성
+
+- ffmpeg.FS("writeFile", "파일명", binaryData Function);
+- writeFile은 파일을 생성하는 역할을 한다.
+- binaryData Function은 정보를 요청하는 URL 즉, fetch함수를 의미한다.fetch(videoFile)
+
+5. ffmpeg.run("")를 이용하여 개발자가 원하는 명령어를 입력한다.
+
+- await ffmpeg.run("-i", "recording.webm","-r","60", "output.mp4");
+- -i는 input을 의미한다.
+- recording.webm은 파일명을 의미한다.
+- output.mp4는 recording.webm이 변환된 후 파일을 의미한다.
+- 즉, 5. 함수는 recording.webm을 input받아서 output.mp4로 변환해주는 역할이다.
+- -r, 60은 영상을 초당 60프레임으로 인코딩 해주는 명령어이다.
+
+# !!!!!
+
+# ReferenceError: SharedArrayBuffer is not defined 에러
+
+1. server.js에 해당 미들웨어 추가
+   app.use((req, res,next) => {
+   res.header("Cross-Origin-Embedder-Policy", "require-corp");
+   res.header("Cross-Origin-Opener-Policy), "same-origin");
+   next();
+   });
+2. header.pug의 기존 img 태그에 crossorigin추가
+   img(src=`${loggedInUser.avatarUrl}`, crossorigin).header\_\_avatar

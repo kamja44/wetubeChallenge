@@ -18,7 +18,7 @@ header
                         if loggedInUser.avatarUrl === undefined
                             span #{loggedInUser.name !== null ? loggedInUser.name : loggedInUser.username}'s Profile
                         else
-                            img(src=`${loggedInUser.avatarUrl}`).header__avatar
+                            img(src=`${loggedInUser.avatarUrl}`, crossorigin).header__avatar
             else
                 li
                     a(href="/login") Login
