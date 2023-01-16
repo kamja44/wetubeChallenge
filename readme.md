@@ -2014,5 +2014,78 @@ Recoder
    npm i regenerator-runtime
    src/client/js/main.js 파일 상단에 import후 base.pug에 main.js 추가
 
+# 13.1
+
 3. upload.pug에서 video생성 후 recoder.js파일에서 생성한 video 태그 가져오기
    3-1 stream 상수를 video.srcObject에 넣고 있는데 srcObject는 video가 가질 수 있는 무언가를 의미한다. 즉, srcObject는 MediaStream, MediaSourece, Blob, File을 실행할 때 video에 주는 무언가를 의미한다.
+
+# 13.2
+
+event 제거하기
+
+- element.removeEventlistener("event", handler);
+
+VIDEO OR AUDIO 녹화하기
+
+- MediaRecorder
+- MediaRecorder을 생성하고 argument에 stream을 전달하면 된다.
+- const recorder = new window.MediaRecorder(stream)
+- stream을 전달한 후 recorder.start()를 작성하면 녹화가 시작된다.
+- 단, 녹화 시작 전 MediaRecorder의 event를 작성해야한다.
+
+# 13.3
+
+URL.createObjectURL()
+
+- 브라우저 메모리에서만 가능한 URL 생성(src/client/js/recorder.js) 즉, 브라우저의 메모리를 가리키기만 하고 있는 URL이다.
+
+# 13.4
+
+파일 다운로드 방법(src/client/js/recorder.js)
+a.download = "MyRecording.webm" <- 다운로드할 파일의 포맷을 지정한다.(.webm) 포맷 지정
+
+# 13.5
+
+비디오 녹화 및 다운로드 정리
+
+1. init() function
+
+- mediaDevices는 마이크, 카메라와 같은 미디어 장비들에 접근한다.(getUserMedia로 audio는 제외하고 video만 접근하게 설정)
+- stream이란 우리가 어딘가에 넣어둘 0과 1로 이루어진 데이터를 의미한다.
+- stream을 video의 srcObject에 할당 후 video를 play한다.
+
+2. startBtn click event
+
+- startBtn의 text를 변경하고, 기존의 handleStart event를 제거하고 handleStop event를 추가한다.
+- 우리가 받은 stream(전역변수)을 가지고 MediaRecorder()를 생성하고 ondataavailable이라는 EventListener을 추가한다.(ondataavailable 이벤트는 녹화가 멈추면 발생되는 이벤트이다.)
+- recoder.start()를 사용하여 녹화를 시작한다.
+
+3. 녹화중 startBtn(stop Recording) 클릭
+
+- 버튼의 텍스트 부분이 stop Recording -> Download Recording으로 변경한다.
+- 기존의 handleStop 이벤트를 제거하고 handleDownload 이벤트를 생성한다.
+- recorder.stop()을 사용하여 녹화를 중단한다.
+- 녹화가 중단되면 녹화가 중단되었을때의 이벤트인 ondataavailable이벤트가 발생한다.
+
+4. ondataavailable 이벤트
+
+- 이벤트가 발생하면 event(event.data)를 얻는다.
+- 얻은 event.data는 브라우저에서만 사용이 가능한 파일이다.
+- URL.createObjectURL을 이용하여 브라우저에서만 사용이 가능한 파일을 공유할 수 있게 만든다.(이 URL은 실제로 백엔드에 존재하지 않는다!!!!, 이 URL은 메모리 상에 있는 파일에 접근할 수 있도록 브라우저가 생성한 것이다.)
+- srcObject는 미리보기 역할!!!!
+- video의 srcObject에 넣은 stream을 제거하고, video의 src를 URL.createObjectURL에서 생성한 URL로 대체한다.(createObjectURL은 사용자가 브라우저의 메모리 상에 있는 파일에 접근할 수 있는 방법이다. 즉, 브라우저가 열려 있는 상태에서만 존재한다.)
+- video에 loop옵션을 true로 설정하여 반복적으로 재생하게 설정
+- video.paly()를 이용하여 비디오 플레이
+
+5. stopBtn 클릭 이벤트
+
+- Stop Recording -> Download Recording
+- 기존의 handleStop 이벤트를 제거하고 handleDownload 이벤트를 생성한다.
+
+6. handleDownload 이벤트
+
+- a태그 생성
+- a태그의 href속성을 videoFile(위에서 만든 URL)로 설정
+- a.download를 사용하여 브라우저로 하여금 사용자에게 해당 URL로 넘어가는 것이 아닌, 해당 URL을 다운로드 하게 한다.
+- 생성한 a태그를 body에 추가한다.
+- a.click() <\_ 사용자 대신 개발자가 해당 링크를 클릭한다.(즉, 클릭을 가장했다.[사용자도 모르게 클릭 이벤트를 발생시킨다.])

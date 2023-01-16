@@ -1,8 +1,9 @@
 extends base.pug
 
 block content 
-    video#preview
-    button#startBtn Start Button
+    div 
+        video#preview(style="width: 50px; height: 50px;")
+        button#startBtn Start Button
     if errorMessage
         span=errorMessage
     form(method="POST", enctype="multipart/form-data")
