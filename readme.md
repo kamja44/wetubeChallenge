@@ -2214,3 +2214,19 @@ Thumbnail(썸네일)
    thumbA.download = "MyThumbnail.jpg";
    document.body.appenChild(a);
    thumbA.click();
+
+# 14.4
+
+FFmpeg의 작업이 끝나면 파일의 링크를 해제하여 브라우저의 속도를 높일 수 있다.
+
+- ffmpeg.FS("unlink", "recording.webm");
+- ffmpeg.FS("unlink", "output.mp4");
+- ffmpeg.FS("unlink", "thumbnail.jpg");
+
+FFmpeg의 작업이 끝나면 생성했던 URL도 삭제한다.
+
+- URL.revokeObjectURL(mp4Url);
+- URL.revokeObjectURL(thumbUrl);
+- URL.revokeObjectURL(videoFile);
+
+즉, 위의 작업들은 파일들을 메모리에서 삭제하는 작업이다.
