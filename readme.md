@@ -2230,3 +2230,14 @@ FFmpeg의 작업이 끝나면 생성했던 URL도 삭제한다.
 - URL.revokeObjectURL(videoFile);
 
 즉, 위의 작업들은 파일들을 메모리에서 삭제하는 작업이다.
+
+# 14.5 ~ 14.6
+
+ffmpeg 코드 정리
+
+multer middleware를 사용하여 파일을 업로드할때 single을 사용하여 하나의 파일만 업로드했다. single을 fields로 바꾼 후 영상과 썸네일 2개를 업로드한다.
+single을 사용하면 req.file을 사용해야 하고 fields를 사용하면 req.files를 사용한다. 즉, req.file을 req.files로 변경한다.
+
+mixins/video.pug에서 썸네일 설정
+
+- div.video-mixin\_\_thumb(style=`background-image: url(${video.thumbUrl})`)
