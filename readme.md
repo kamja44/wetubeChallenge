@@ -2179,3 +2179,38 @@ FFmpeg 사용법
 - 기존 webm으로 설정한 파일들을 mp4로 설정한다.
 - a.href = mp4Url;
 - a.download = "MyRecording.mp4";
+
+# 14.3
+
+Thumbnail(썸네일)
+
+- 영상의 첫 프레임이나, 1초의 스크린샷을 찍어서 jpg파일로 저장해서 사용한다.
+
+1. ffmpeg load
+
+- await ffmpeg.run("-i", "recording.webm", "-ss", "00:00:01", "-frames:v","1", "thumbnail.jpg");
+- "-ss"명령어는 영상의 특점 시간으로 이동할 수 있다.
+- "00:00:01 <- "-ss'명령어를 이용하여 영상이 1초일때로 이동한다.
+- "-frames:v","1" 명령어는 첫 프레임의 스크린샷을 찍는다.
+- "thumbnail.jpg"은 썸네일의 이름이다.
+- 즉 위 명령으는 recording.webm을 인풋으로 받고 00:00:01 시간대로 영상 이동 후 1장의 스크린샷을 찍어서 그 파일을 thumbnail.jpg로 저장한다.
+
+2. ffmpeg의 FS(파일 시스템)을 이용하여 생성한 jpg파일(thumbnail.jpg)을 가져온다.
+
+- const thumbFile = ffmpeg.FS("readFile", "thumbnail.jpg");
+
+3. 읽어들인 파일을 사용하기 위해 blob을 사용한다.
+
+- const thumbBlob = new Blob([thumbFile.buffer], {type:"image/jpg"});
+
+4. blob을 생성했으니 blob을 위한 url을 새성한다.
+
+- blob url은, url을 통해서 파일에 접근하는 방법이다.
+- const thumbUrl = URL.createObjectURL(thumbBlob)
+
+5. 생성한 파일을 사용한다.
+   const thumbA = document.createElement("a");
+   thumbA.href = thumbUrl;
+   thumbA.download = "MyThumbnail.jpg";
+   document.body.appenChild(a);
+   thumbA.click();
