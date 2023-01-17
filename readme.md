@@ -2275,3 +2275,13 @@ express-flash
 - return res.status(403).redirect("/");
 - src/controllers/userController.js의
   Middleware든 Controller든 메시지를 보내고 싶은 곳에 사용한다.
+
+# 15.1
+
+locals는 template에서 사용 가능하다.
+flash 미들웨어는 남길 메시지를 locals로 만든다.
+즉, flash 미들웨어를 사용하고 req.flash로 메시지를 남기면 messages.locals를 반환한다.
+
+- req.flash("error","Not authorized");
+- locals에는 error : Not authorized가 들어있다.
+- flash 메시지가 한 번 보여지고 나면 express가 메시지를 cache에서 삭제한다. 즉, 메시지는 한번만 표출된다.
