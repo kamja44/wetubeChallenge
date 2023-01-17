@@ -2241,3 +2241,37 @@ single을 사용하면 req.file을 사용해야 하고 fields를 사용하면 re
 mixins/video.pug에서 썸네일 설정
 
 - div.video-mixin\_\_thumb(style=`background-image: url(${video.thumbUrl})`)
+
+# 15.0
+
+express-flash
+
+- 사용자에게 flash message를 남길 수 있게 해준다.
+
+1. express-flash 설치
+
+- npm i express-flash
+
+2. server.js에 import
+
+- import flash from "express-flash"
+
+3. server.js에서 사용
+
+- app.user(flash());
+
+- flash()가 session에 연결해서 사용자에게 메시지를 남긴다.
+- flash() 미들웨어를 설치한 순간부터 req.flash라는 함수를 사용할 수 있다.
+
+4. 보여줄 메시지 작성
+   Middleware 에서 사용
+
+- src/middleware.js
+- protectorMiddleware, publicOnlyMiddleware
+- req.flash("error", "Not authorized");
+  Controller의 redirect하는 곳에 사용
+- src/controllers/videoController.js의 getEdit컨트롤러
+- req.flash("error","Not authorized");
+- return res.status(403).redirect("/");
+- src/controllers/userController.js의
+  Middleware든 Controller든 메시지를 보내고 싶은 곳에 사용한다.
