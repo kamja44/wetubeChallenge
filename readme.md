@@ -2153,3 +2153,29 @@ FFmpeg 사용법
    });
 2. header.pug의 기존 img 태그에 crossorigin추가
    img(src=`${loggedInUser.avatarUrl}`, crossorigin).header\_\_avatar
+
+# 14.2
+
+다운로드 받은 파일 가져오기
+
+1. ffmpeg의 FS(파일 시스템)을 이용하여 생성한 MP4파일(output.mp4)을 가져온다.
+
+- const mp4File ffmpeg.FS("readFile", "output.mp4")
+- 즉, 파일 시스템에 생성된 파일을 읽어 들인다.
+- 읽어들인 파일은 Uini8Array(array of 8-bit unsigned integres)타입이 된다.
+
+2. 읽어들인 파일을 사용하기 위해 blob을 사용한다.
+
+- 읽어들인 파일이 Uini8Array 타입이기에 blob을 사용한다.
+- blob은 javascript 세계의 파일과 같다. 즉, 파일같은 객체를 만드는 방법이 blob이다.(blob은 바이너리 정보를 가지고 있다.)
+- 읽어들인 파일의 binary data에 접근하려면 buffer를 사용해야한다. 즉, 실제 데이터에 접근하기 위해선 buffer을 사용해야한다.
+- mp4File.buffer
+- buffer는 ArrayBuffer를 반환한고, ArrayBuffer는 raw binary data를 나타내는 object이다. 즉, 영상을 나타내는 bytes 배열이다.
+- blob은 배열안에 배열을 받을 수 있다. 즉, 배열을 만들고 그 안에 buffer를 넣어 준다.
+- buffer을 넣어준 후 type을 video/mp4로 설정한다.
+- const mp4Blob = new Blob([mp4File.buffer], {type: "video/mp4});
+- blob을 사용하면 URL을 만들 수 있다.
+- const mp4Url = URL.createObjectURL(mp4Blob)
+- 기존 webm으로 설정한 파일들을 mp4로 설정한다.
+- a.href = mp4Url;
+- a.download = "MyRecording.mp4";
