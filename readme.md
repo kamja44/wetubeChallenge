@@ -1994,7 +1994,8 @@ fetch함수로 post요청 보내기
 
 - return res.sendStatus(200)
 
-#13.0
+# 13.0
+
 Recoder
 
 1. src/client/js에 recoder.js 파일 만들기
@@ -2285,3 +2286,11 @@ flash 미들웨어는 남길 메시지를 locals로 만든다.
 - req.flash("error","Not authorized");
 - locals에는 error : Not authorized가 들어있다.
 - flash 메시지가 한 번 보여지고 나면 express가 메시지를 cache에서 삭제한다. 즉, 메시지는 한번만 표출된다.
+
+# 16.1
+
+Model 생성 Recap
+
+1. Comment.js(Comment 모델) 생성
+2. Video모델과 의존관계 생성(비디오는 많은 댓글을 가질 수 있다. 즉, 비디오 모델에 댓글을 배열로 선언한다.) 유저모델도 의존관계 생성
+3. init.js 파일에 생성한 Comment모델 import한다. 즉, Mongoose가 model을 compile하도록 한다.
