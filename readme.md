@@ -2335,3 +2335,9 @@ fetch함수의 headers에는 기본적으로 request에 대한 정보를 담고�
   "Content-Type" : "application/json"
   });
 - server.js 파일의 app.use(express.json()) 미들웨어를 사용하기 위해선 fetch 함수로 데이터를 프론트엔드에서 백엔드로 전송할 때 fetch 함수로 보내는 데이터가 JSON 데이터라는걸 명시하기 위해 fetch 함수의 header에 Content-Type을 명시해야한다.
+
+# 16.5
+
+백엔드로 보내는 모든 request는 쿠키와 함께 온다. 즉, 백엔드로 쿠키를 보내면 백엔드는 세션을 찾는다.
+
+- videoController.js 에서 createComment상수에서 해당 작업을 한다.
