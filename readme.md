@@ -2294,3 +2294,10 @@ Model 생성 Recap
 1. Comment.js(Comment 모델) 생성
 2. Video모델과 의존관계 생성(비디오는 많은 댓글을 가질 수 있다. 즉, 비디오 모델에 댓글을 배열로 선언한다.) 유저모델도 의존관계 생성
 3. init.js 파일에 생성한 Comment모델 import한다. 즉, Mongoose가 model을 compile하도록 한다.
+
+# 16.2
+
+form을 제출할 때 btn의 클릭이벤트가 아닌 form의 submit이벤트를 감지해야한다.(즉, type이 submit인 btn or input을 다룰 때 submit 이벤트를 사용해야한다.)
+
+- commentSection.js
+- form.addEventListener("submit", handleSubmit);
