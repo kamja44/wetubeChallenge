@@ -6,7 +6,7 @@ module.exports = {
     main: `${BASE_JS}main.js`,
     videoPlayer: `${BASE_JS}videoPlayer.js`,
     recoder: `${BASE_JS}recoder.js`,
-    comnentSection: `${BASE_JS}commentSection.js`,
+    commentSection: `${BASE_JS}commentSection.js`,
   },
   plugins: [
     new MiniCssExtractPlugin({

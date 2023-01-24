@@ -2301,3 +2301,11 @@ form을 제출할 때 btn의 클릭이벤트가 아닌 form의 submit이벤트�
 
 - commentSection.js
 - form.addEventListener("submit", handleSubmit);
+
+# 16.3
+
+fetch의 2번째 argument의 body
+
+- request의 body를 만든다. 즉, fetch함수를 이용하여 request의 body를 생성한다.
+- fetch는 JS를 통해서 request를 보낼 수 있게(생성할 수 있게) 해준다.
+- body의 text는 사용자가 작성한 text상수이다.(commentSection.js의 handleSubmit 상수 참조)
