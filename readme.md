@@ -2309,3 +2309,29 @@ fetch의 2번째 argument의 body
 - request의 body를 만든다. 즉, fetch함수를 이용하여 request의 body를 생성한다.
 - fetch는 JS를 통해서 request를 보낼 수 있게(생성할 수 있게) 해준다.
 - body의 text는 사용자가 작성한 text상수이다.(commentSection.js의 handleSubmit 상수 참조)
+
+# 16.4
+
+웹사이트에 request로 들어오는 text를 이해할 수 있도록 설정
+
+- server.js 파일의 app.use(express.text({extended: true}))
+  server.js 파일의 app.use(express.urlencoded({extended: true}))는 input이 request로 들어올 때 해석할 수 있도록 설정하는 코드이다.
+
+JSON.stringify()
+
+- JS Object를 받아서 string으로 반환한다.
+
+JSON.parse
+
+- string으로 변환한 JS Object를 Object 형식으로 변환한다.
+
+웹사이트에 request로 들어오는 json을 이해할 수 있도록 설정
+
+- server.js 파일의 app.use(express.json())
+
+fetch함수의 headers에는 기본적으로 request에 대한 정보를 담고있다.
+
+- commentSection.js의 fetch(URL,header{
+  "Content-Type" : "application/json"
+  });
+- server.js 파일의 app.use(express.json()) 미들웨어를 사용하기 위해선 fetch 함수로 데이터를 프론트엔드에서 백엔드로 전송할 때 fetch 함수로 보내는 데이터가 JSON 데이터라는걸 명시하기 위해 fetch 함수의 header에 Content-Type을 명시해야한다.
