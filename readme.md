@@ -2341,3 +2341,25 @@ fetch함수의 headers에는 기본적으로 request에 대한 정보를 담고�
 백엔드로 보내는 모든 request는 쿠키와 함께 온다. 즉, 백엔드로 쿠키를 보내면 백엔드는 세션을 찾는다.
 
 - videoController.js 에서 createComment상수에서 해당 작업을 한다.
+
+# 16.6
+
+comment를 달았을 때 video의 comment가 업데이트 되지 않는 문제가 발생
+
+- comment를 생성할 때 video를 업데이트한다.
+- videoController.js 파일의 createComment 상수 video.comments.push(comemnt.\_id)
+- 업데이트한 비디오의 정보도 저장해야한다.
+- videoController.js 파일의 createComment 상수 video.save()
+
+js 배열 뒤집기
+
+- watch.pug파일
+- each comment in video.comments.reverse()
+- 띄어쓰기 li=comment.text
+
+댓글 입력 시 실시간처럼 처리하기
+
+- client>js>commentSection.js파일의 handleSubmit
+- fetch를 await으로 변경하고 fetch가 끝났을 때 window.loaction.reload(); 코드 추가
+- window.location.reload()코드는 새로고침을 실행하는 코드이다.
+- 실제로 새로고침을 하는 코드이기에 댓글을 생성할 때마다 동영상을 찾아야하는 문제점이 있다. 즉, 부하가 발생한다.
