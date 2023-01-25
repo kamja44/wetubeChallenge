@@ -16,6 +16,7 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate("owner").populate("comments");
+  console.log(video);
   if (video) {
     return res.render("watch", { pageTitle: video.title, video });
   }
@@ -27,6 +28,7 @@ export const getEdit = async (req, res) => {
     user: { _id },
   } = req.session;
   const video = await Video.findById(id);
+  console.log(video);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not Found" });
   }
@@ -147,7 +149,22 @@ export const createComment = async (req, res) => {
     owner: user._id,
     video: id,
   });
-  video.comments.push(comment._id);
+  video.comments.push(comment._id.toString());
   video.save();
   return res.status(201).json({ newComment: comment._id });
+};
+export const deleteComment = async (req, res) => {
+  const { id, videoid } = req.body;
+  const { _id } = req.session.user;
+  const { owner } = await Comment.findById(id);
+  const video = await Video.findById(videoid);
+  console.log(video);
+  if (String(owner) !== _id) {
+    return res.sendStatus(403);
+  } else {
+    await Comment.findByIdAndDelete(id);
+    video.comments.splice(video.comments.indexOf(videoid), 1);
+    video.save();
+    return res.sendStatus(200);
+  }
 };

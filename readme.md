@@ -2388,4 +2388,3 @@ body: JSON.stringify({ text }),
 
 - response에서 받은 json데이터를 추출한다.
 - const json = await response.json();
-  8분 54초

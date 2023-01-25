@@ -31,5 +31,9 @@
     background-color: white;
     color: black;
     margin-bottom: 10px;
+    .deleteBtn {
+      float: right;
+      cursor: pointer;
+    }
   }
 }
