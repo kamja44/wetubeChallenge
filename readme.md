@@ -2370,3 +2370,22 @@ fetch로 응답을 받으면 status를 반환한다.
 
 - const response = fetch(...)
 - console.log(response)
+
+# 16.8
+
+comment 상수의 return res.status(201).json({newComment:comment.\_id});
+
+- status(201)을 return할 때 json데이터인 {newComment:comment.\_id}를 반환한다.
+- 즉, request를 보내면(comment를 생성하면) response에 json을 전달한다.
+
+const response = await fetch(`/api/videos/${videoId}/comment`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+},
+body: JSON.stringify({ text }),
+});
+
+- response에서 받은 json데이터를 추출한다.
+- const json = await response.json();
+  8분 54초

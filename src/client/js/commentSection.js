@@ -8,9 +8,12 @@ const addComment = (text) => {
   newComment.className = "video__comment";
   icon.className = "fas fa-comment";
   const span = document.createElement("span");
+  const deleteSpan = document.createElement("span");
+  deleteSpan.innerText = `❌`;
   span.innerText = ` ${text}`;
   newComment.appendChild(icon);
   newComment.appendChild(span);
+  newComment.appendChild(deleteSpan);
   videoComments.prepend(newComment);
 };
 const handleSubmit = async (event) => {
@@ -21,7 +24,7 @@ const handleSubmit = async (event) => {
   if (text.trim() === "") {
     return;
   }
-  const { status } = await fetch(`/api/videos/${videoId}/comment`, {
+  const response = await fetch(`/api/videos/${videoId}/comment`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,7 +32,9 @@ const handleSubmit = async (event) => {
     body: JSON.stringify({ text }),
   });
   textarea.value = "";
-  if (status === 201) {
+  console.log(newCommentId);
+  if (response.status === 201) {
+    const { newCommentId } = await response.json();
     addComment(text);
   }
 };
