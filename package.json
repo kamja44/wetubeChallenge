@@ -7,6 +7,8 @@
     "url": "git+https://github.com/kamja44/wetubeChallenge.git"
   },
   "scripts": {
+    "start": "node build/init.js",
+    "build:server": "babel src -d build",
     "dev:server": "nodemon",
     "dev:assets": "webpack"
   },
@@ -33,7 +35,8 @@
     "regenerator-runtime": "^0.13.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
     "@babel/node": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
     "babel-loader": "^9.1.2",

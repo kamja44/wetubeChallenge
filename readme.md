@@ -2388,3 +2388,30 @@ body: JSON.stringify({ text }),
 
 - response에서 받은 json데이터를 추출한다.
 - const json = await response.json();
+
+# 17.0
+
+서버 배포
+
+현재 babel-node를 사용하고 있는데 프로그램을 배포할 때는 babel-node가 느리기 때문에 Babel CLI를 사용하여 배포한다.
+
+Babel CLI
+
+- 사용자가 우너하는 대로 코드를 바꾼다.
+- npm i --save-dev @babel/core @babel/cli
+- @babel/core를 같이 설치해도 상관없다.
+
+-d 옵션을 사용하여 특정 디렉토리를 지정할 수 있다. 즉, 빌드한 코드를 어느 디렉토리에 저장할 지를 의미한다.
+
+- "scripts":{"build:server":"babel src/init.js -d build"}
+
+babel의 경우 한 파일만 실행하는게 아니라 모든 폴더를 빌드해서 실행해야 한다.
+
+- "scripts":{"build:server":"babel src -d build"}
+- 즉, babel이 src폴더를 빌드하고 결과물은 bulid 폴더에 저장한다.
+- 생성한 build 폴더를 gitignore에 추가한다.
+- 백엔드 코드만 build 해야하는데 client 코드도 build 되는 문제 발생 <- 추후 해결
+
+"script":{"start":"node build/init.js"}
+
+- start명령어를 이용하여 build/init.js 파일을 실행한다. <- babel이 없는 이유는 babel CLI를 이용하여 변경한 js코드이기 때문이다. 즉, 구형 js 코드이다.(babel을 이용하여 변환할 필요가 없다.)
