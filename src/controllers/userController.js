@@ -185,8 +185,8 @@ export const postEdit = async (req, res) => {
   return res.redirect("/users/edit");
 };
 export const logout = (req, res) => {
-  req.session.destroy();
   req.flash("info", "Bye Bye");
+  req.session.destroy();
   return res.redirect("/");
 };
 export const getChangePassword = (req, res) => {
@@ -222,7 +222,6 @@ export const postChangePassword = async (req, res) => {
   user.password = newPassword;
   await user.save();
   req.flash("info", "Password updated");
-  req.session.user.password = user.password;
   return res.redirect("users/logout");
 };
 export const see = async (req, res) => {

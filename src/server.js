@@ -13,7 +13,6 @@ const logger = morgan("dev");
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
-app.use(flash());
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +29,7 @@ app.use(
     }),
   })
 );
+app.use(flash());
 app.use(localsMiddleware);
 app.use((req, res, next) => {
   res.header("Cross-Origin-Embedder-Policy", "require-corp");
