@@ -2363,3 +2363,10 @@ js 배열 뒤집기
 - fetch를 await으로 변경하고 fetch가 끝났을 때 window.loaction.reload(); 코드 추가
 - window.location.reload()코드는 새로고침을 실행하는 코드이다.
 - 실제로 새로고침을 하는 코드이기에 댓글을 생성할 때마다 동영상을 찾아야하는 문제점이 있다. 즉, 부하가 발생한다.
+
+# 16.7
+
+fetch로 응답을 받으면 status를 반환한다.
+
+- const response = fetch(...)
+- console.log(response)

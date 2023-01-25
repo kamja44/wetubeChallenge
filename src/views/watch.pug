@@ -19,6 +19,15 @@ block content
             div 
                 span#fullScreen
                     i.fas.fa-expand
+    div.video__data
+        p.video__title=video.title
+        small.video__owner Uploaded by  
+            a(href=`users/${video.owner._id}`)=video.owner.name
+        small.video__createdAt=new Date(video.createdAt)
+        if String(video.owner._id) === String(loggedInUser._id)
+            a(href=`${video.id}/edit`) Edit Video &rarr;
+            br
+            a(bref=`${video.id}/delete`) Delete Video &rarr;
     if loggedIn
         div.video__add-comments
             form.video__comment-form#commentForm
@@ -29,7 +38,7 @@ block content
             each comment in video.comments.reverse()
                 li.video__comment
                     i.fas.fa-comment
-                    |    #{comment.text}
+                    span    #{comment.text}
 block scripts
     script(src="/static/js/videoPlayer.js") 
     if loggedIn
