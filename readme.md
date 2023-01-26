@@ -2441,3 +2441,19 @@ webpack을 production모드로 설정하여 watch 옵션을 사용하지 않으�
 build:server와 build:assets 명령어 통합사용
 
 - "build" : "npm run build:server && npm run build:assets"
+
+# 17.4
+
+MongoDB Atlas
+
+- https://www.mongodb.com/atlas/database
+
+MongoDB 생성
+
+1. 새로운 Project 생성
+2. Cluster추가 (Create a database)
+   (Atlas-DEPLOYMENT-Databases에서 Build a Database로 변경)
+3. Shared클릭
+4. Cloud Provider & Region 선택 (us-east-1)
+5. Cluster Tier 선택 (Free)
+6. Cluster 생성
