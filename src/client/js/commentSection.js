@@ -3,7 +3,7 @@ const form = document.getElementById("commentForm");
 const deleteBtn = document.querySelector(".deleteBtn");
 
 const addComment = (text, id) => {
-  console.log(id);
+  // console.log(id);
   const videoComments = document.querySelector(".video__comments ul");
   const newComment = document.createElement("li");
   const icon = document.createElement("i");
@@ -45,7 +45,7 @@ const handleSubmit = async (event) => {
   }
 };
 const handleDelete = async (event) => {
-  console.log(event.target.dataset);
+  // console.log(event.target.dataset);
   const { id, videoid } = event.target.dataset;
   const response = await fetch(`/api/videos/${videoid}/comments/${id}/delete`, {
     method: "DELETE",

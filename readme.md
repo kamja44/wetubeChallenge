@@ -2422,3 +2422,16 @@ regeneratorRuntime
 
 - async와 await을 사용할 수 있게 해준다.
 - import "regenerator-runtime"
+
+# 17.2
+
+Build Webpack
+
+- webpack.config.js 파일에서 mode: "development"를 삭제한다. <- package.json에서 mode를 직접 설정한다.
+- "dev:assets": "webpack" 코드는 "dev:assets": "webpack --mode=development" 코드로 변경한다.
+- "build:assets": "webpack --mode=production"코드를 추가하여 webpack을 빌드할 때 production 모드로 빌드한다.
+
+webpack이 development 모드에서만 watch모드를 true로 해야한다. <- webpack.config.js 파일에서 waatch:true를 지우고 package.json에서 설정한다.
+
+- "dev:assets": "webpack --mode=development -w"
+- -w는 watch옵션을 true로 사용한다.
