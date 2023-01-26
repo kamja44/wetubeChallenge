@@ -2435,3 +2435,9 @@ webpack이 development 모드에서만 watch모드를 true로 해야한다. <- w
 
 - "dev:assets": "webpack --mode=development -w"
 - -w는 watch옵션을 true로 사용한다.
+
+webpack을 production모드로 설정하여 watch 옵션을 사용하지 않으면 코드가 변경되어도 재실행되지 않는다. <- watch 옵션을 사용하는 development 옵션은 코드가 변경되면 webpack이 재실행된다.
+
+build:server와 build:assets 명령어 통합사용
+
+- "build" : "npm run build:server && npm run build:assets"
